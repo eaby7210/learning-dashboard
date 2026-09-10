@@ -1,4 +1,4 @@
-const CACHE = "roadmap-dashboard-v1";
+const CACHE = "roadmap-dashboard-v2";
 const CORE_FILES = [
   "index.html", "map.html", "advancements.html", "timeline.html",
   "style.css", "nav.js", "manifest.json",
@@ -6,34 +6,30 @@ const CORE_FILES = [
 ];
 
 self.addEventListener("install", (event) => {
+  self.skipWaiting();
   event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(CORE_FILES)));
 });
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
-    )
+    caches.keys()
+      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
+      .then(() => self.clients.claim())
   );
 });
 
-// progress.json: network-first (want fresh data when online), fall back to cache
-// offline. Everything else: cache-first, since the shell rarely changes.
+// Network-first for everything, falling back to cache only when offline — this is
+// an actively-edited site, correctness/freshness matters more than shaving a round
+// trip. (Cache-first previously meant an edit to any file wouldn't show up for a
+// returning visitor until the cache name changed AND every open tab was closed.)
 self.addEventListener("fetch", (event) => {
-  const url = new URL(event.request.url);
-  if (url.pathname.endsWith("progress.json")) {
-    event.respondWith(
-      fetch(event.request)
-        .then((res) => {
-          const copy = res.clone();
-          caches.open(CACHE).then((cache) => cache.put(event.request, copy));
-          return res;
-        })
-        .catch(() => caches.match(event.request))
-    );
-    return;
-  }
   event.respondWith(
-    caches.match(event.request).then((cached) => cached || fetch(event.request))
+    fetch(event.request)
+      .then((res) => {
+        const copy = res.clone();
+        caches.open(CACHE).then((cache) => cache.put(event.request, copy));
+        return res;
+      })
+      .catch(() => caches.match(event.request))
   );
 });
