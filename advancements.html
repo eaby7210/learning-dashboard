@@ -23,22 +23,12 @@
   <script>
     renderNav("advancements.html");
 
-    const TIER_FRAME = { task: "square", goal: "rounded", challenge: "diamond" };
-
-    function iconFor(n) {
-      if (n.id.includes("checkpoint")) return "🏛️";
-      if (n.id.startsWith("streak-")) return "🔥";
-      if (n.tier === "task") return "🥾";
-      if (n.tier === "goal") return "🧭";
-      return "💎";
-    }
-
     function nodeEl(n) {
       const el = document.createElement("div");
       el.className = `adv-node tier-${n.tier} ${n.earned ? "earned" : "locked"}`;
       el.setAttribute("data-tooltip", n.tooltip);
       el.innerHTML = `
-        <div class="icon">${iconFor(n)}</div>
+        <div class="icon">${n.icon}</div>
         <div>
           <div class="title">${n.label}</div>
           <div class="detail">${n.flavor}</div>
