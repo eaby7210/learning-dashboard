@@ -37,12 +37,19 @@
       "JavaScript": [["j04", "Ph0-4", 0, 4], ["j58", "Ph5-8", 5, 8], ["j910", "Ph9-10", 9, 10]],
       "Golang":     [["g03", "Ph0-3", 0, 3], ["g68", "Ph4-8", 4, 8], ["g9", "Ph9", 9, 9]],
       "Odin":       [["o04", "Ph0-4", 0, 4], ["o58", "Ph5-8", 5, 8], ["o9", "Ph9", 9, 9]],
+      // Now tracked (see SESSION-LOG.md) — real phase groups, not a flat external
+      // bubble. Split at each project's own natural milestone (sphadik: the MVP
+      // Gate between Ph4 and Ph5; G4x: MVP build vs. sim/AI/persistence).
+      "sphadik":    [["sph04", "Ph0-4", 0, 4], ["sph58", "Ph5-8", 5, 8]],
+      "G4x":        [["g4x03", "Ph0-3", 0, 3], ["g4x47", "Ph4-7", 4, 7]],
     };
-    const EXTERNAL = [["nc0", "neetcode-submissions"], ["sph", "sphadik"], ["g40", "G4x"]];
+    // neetcode-submissions has no phase tracking of its own (it's a ledger, not a
+    // project) — stays a flat external bubble.
+    const EXTERNAL = [["nc0", "neetcode-submissions"]];
     const DASHED_EDGES = [
       ["cc03", "d13"], ["cc03", "o04"], ["cc46", "g03"], ["d13", "g03"],
       ["d46", "g9"], ["d46", "o9"], ["d46", "nc0"], ["g03", "o58"],
-      ["p04", "j04"], ["p58", "p9"], ["p58", "sph"], ["j04", "j910"], ["o9", "g40"],
+      ["p04", "j04"], ["p58", "p9"], ["p58", "sph04"], ["j04", "j910"], ["o9", "g4x03"],
     ];
 
     function groupStatus(phase, start, end) {
