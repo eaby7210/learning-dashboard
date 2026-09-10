@@ -49,6 +49,20 @@
       "xp": 0,
       "max_phase": 9,
       "finished": false
+    },
+    "sphadik": {
+      "phase": 0,
+      "status": "not started",
+      "xp": 0,
+      "max_phase": 8,
+      "finished": false
+    },
+    "G4x": {
+      "phase": 0,
+      "status": "not started",
+      "xp": 0,
+      "max_phase": 7,
+      "finished": false
     }
   },
   "jump_log": [],
@@ -637,6 +651,171 @@
       "tooltip": "Requirement: reach Phase 8 in Odin."
     },
     {
+      "id": "sphadik-ph0",
+      "tier": "task",
+      "label": "Environment, Tenant Zero",
+      "flavor": "Nothing is shared yet, on purpose.",
+      "icon": "\ud83e\uddf0",
+      "subject": "sphadik",
+      "parent": null,
+      "earned": true,
+      "tooltip": "Earned \u2014 sphadik reached Phase 0."
+    },
+    {
+      "id": "sphadik-ph1",
+      "tier": "task",
+      "label": "One Schema, Many Tenants",
+      "flavor": "ContextVar doesn't gossip between requests.",
+      "icon": "\ud83c\udfd8\ufe0f",
+      "subject": "sphadik",
+      "parent": "sphadik-ph0",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 1 in sphadik."
+    },
+    {
+      "id": "sphadik-ph2",
+      "tier": "task",
+      "label": "Built, Not Bolted On",
+      "flavor": "The builder pattern earns its complexity here.",
+      "icon": "\ud83d\udd28",
+      "subject": "sphadik",
+      "parent": "sphadik-ph1",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 2 in sphadik."
+    },
+    {
+      "id": "sphadik-ph3",
+      "tier": "task",
+      "label": "State, Officially Managed",
+      "flavor": "The FSM doesn't allow shortcuts.",
+      "icon": "\ud83d\udea6",
+      "subject": "sphadik",
+      "parent": "sphadik-ph2",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 3 in sphadik."
+    },
+    {
+      "id": "sphadik-ph4",
+      "tier": "task",
+      "label": "Pipeline Complete. Gate Cleared.",
+      "flavor": "select_for_update() was worth the wait.",
+      "icon": "\ud83c\udfaf",
+      "subject": "sphadik",
+      "parent": "sphadik-ph3",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 4 in sphadik."
+    },
+    {
+      "id": "sphadik-ph5",
+      "tier": "task",
+      "label": "Money, Handled Carefully",
+      "flavor": "The adapter doesn't know which provider it is.",
+      "icon": "\ud83d\udcb3",
+      "subject": "sphadik",
+      "parent": "sphadik-ph4",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 5 in sphadik."
+    },
+    {
+      "id": "sphadik-ph6",
+      "tier": "task",
+      "label": "Someone Else's Server, Notified",
+      "flavor": "At-least-once delivery means dedupe or bust.",
+      "icon": "\ud83d\udce4",
+      "subject": "sphadik",
+      "parent": "sphadik-ph5",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 6 in sphadik."
+    },
+    {
+      "id": "sphadik-ph7",
+      "tier": "task",
+      "label": "Public, On Purpose",
+      "flavor": "The API layer is the only door now.",
+      "icon": "\ud83c\udf10",
+      "subject": "sphadik",
+      "parent": "sphadik-ph6",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 7 in sphadik."
+    },
+    {
+      "id": "G4x-ph0",
+      "tier": "task",
+      "label": "Godot, Configured",
+      "flavor": "The engine doesn't know it's a 4X game yet.",
+      "icon": "\u2699\ufe0f",
+      "subject": "G4x",
+      "parent": null,
+      "earned": true,
+      "tooltip": "Earned \u2014 G4x reached Phase 0."
+    },
+    {
+      "id": "G4x-ph1",
+      "tier": "task",
+      "label": "Tiles, Generated",
+      "flavor": "The grid remembers what generated it.",
+      "icon": "\ud83d\uddfa\ufe0f",
+      "subject": "G4x",
+      "parent": "G4x-ph0",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 1 in G4x."
+    },
+    {
+      "id": "G4x-ph2",
+      "tier": "task",
+      "label": "Rendered, Not Imagined",
+      "flavor": "It finally looks like something.",
+      "icon": "\ud83d\uddbc\ufe0f",
+      "subject": "G4x",
+      "parent": "G4x-ph1",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 2 in G4x."
+    },
+    {
+      "id": "G4x-ph3",
+      "tier": "task",
+      "label": "A* Marks the Spot",
+      "flavor": "AStarGrid2D doesn't get lost.",
+      "icon": "\ud83e\udded",
+      "subject": "G4x",
+      "parent": "G4x-ph2",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 3 in G4x."
+    },
+    {
+      "id": "G4x-ph4",
+      "tier": "task",
+      "label": "An Empire, Simulated",
+      "flavor": "The city doesn't know it's fake.",
+      "icon": "\ud83c\udff0",
+      "subject": "G4x",
+      "parent": "G4x-ph3",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 4 in G4x."
+    },
+    {
+      "id": "G4x-ph5",
+      "tier": "task",
+      "label": "Threads, Thinking",
+      "flavor": "The WorkerThreadPool never sleeps.",
+      "icon": "\ud83e\uddf5",
+      "subject": "G4x",
+      "parent": "G4x-ph4",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 5 in G4x."
+    },
+    {
+      "id": "G4x-ph6",
+      "tier": "task",
+      "label": "Victory Conditions, Defined",
+      "flavor": "Someone, eventually, wins.",
+      "icon": "\ud83c\udfc6",
+      "subject": "G4x",
+      "parent": "G4x-ph5",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 6 in G4x."
+    },
+    {
       "id": "gate-c-cpp-dsa",
       "tier": "goal",
       "label": "Pointers Paid Off",
@@ -811,6 +990,28 @@
       "parent": "Odin-ph8",
       "earned": false,
       "tooltip": "Requirement: finish Odin (Phase 9) with a shipped capstone."
+    },
+    {
+      "id": "sphadik-challenge",
+      "tier": "challenge",
+      "label": "Hardened. Shipped.",
+      "flavor": "Production doesn't forgive twice.",
+      "icon": "\ud83d\udee1\ufe0f",
+      "subject": "sphadik",
+      "parent": "sphadik-ph7",
+      "earned": false,
+      "tooltip": "Requirement: finish sphadik (Phase 8) with a shipped capstone."
+    },
+    {
+      "id": "G4x-challenge",
+      "tier": "challenge",
+      "label": "Persisted. Playable.",
+      "flavor": "The save file remembers everything.",
+      "icon": "\ud83d\udcbe",
+      "subject": "G4x",
+      "parent": "G4x-ph6",
+      "earned": false,
+      "tooltip": "Requirement: finish G4x (Phase 7) with a shipped capstone."
     },
     {
       "id": "streak-3",
