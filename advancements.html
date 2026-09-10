@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Advancements — Learning Roadmap</title>
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f1420">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+</head>
+<body>
+  <main>
+    <h1>Advancements</h1>
+    <div class="sub">Task (square) → Goal (rounded) → Challenge (diamond, gold).
+      Hover a node for how it's actually earned.</div>
+
+    <div class="tab-strip" id="tabs"></div>
+    <div id="lane-view"></div>
+  </main>
+
+  <script src="nav.js"></script>
+  <script>
+    renderNav("advancements.html");
+
+    const TIER_FRAME = { task: "square", goal: "rounded", challenge: "diamond" };
+
+    function iconFor(n) {
+      if (n.id.includes("checkpoint")) return "🏛️";
+      if (n.id.startsWith("streak-")) return "🔥";
+      if (n.tier === "task") return "🥾";
+      if (n.tier === "goal") return "🧭";
+      return "💎";
+    }
+
+    function nodeEl(n) {
+      const el = document.createElement("div");
+      el.className = `adv-node tier-${n.tier} ${n.earned ? "earned" : "locked"}`;
+      el.setAttribute("data-tooltip", n.tooltip);
+      el.innerHTML = `
+        <div class="icon">${iconFor(n)}</div>
+        <div>
+          <div class="title">${n.label}</div>
+          <div class="detail">${n.flavor}</div>
+        </div>
+      `;
+      return el;
+    }
+
+    function renderTree(node, childrenMap) {
+      const wrap = document.createElement("div");
+      wrap.className = "tree-node-wrap";
+      wrap.appendChild(nodeEl(node));
+      const kids = childrenMap[node.id] || [];
+      if (kids.length) {
+        const container = document.createElement("div");
+        container.className = "tree-children";
+        for (const k of kids) {
+          const row = document.createElement("div");
+          row.className = "tree-child-row";
+          row.appendChild(renderTree(k, childrenMap));
+          container.appendChild(row);
+        }
+        wrap.appendChild(container);
+      }
+      return wrap;
+    }
+
+    function buildChildrenMap(nodes) {
+      const map = {};
+      for (const n of nodes) {
+        if (n.parent) {
+          (map[n.parent] = map[n.parent] || []).push(n);
+        }
+      }
+      return map;
+    }
+
+    loadProgress().then((data) => {
+      const lanes = { Streaks: data.advancements.filter((n) => n.subject === null) };
+      for (const subject of Object.keys(data.subjects)) {
+        lanes[subject] = data.advancements.filter((n) => n.subject === subject);
+      }
+
+      const tabsEl = document.getElementById("tabs");
+      const laneView = document.getElementById("lane-view");
+      const laneNames = Object.keys(lanes);
+
+      function showLane(name) {
+        [...tabsEl.children].forEach((t) => t.classList.toggle("active", t.dataset.lane === name));
+        laneView.innerHTML = "";
+        const nodes = lanes[name];
+        const childrenMap = buildChildrenMap(nodes);
+        const root = nodes.find((n) => !n.parent);
+        if (!root) {
+          laneView.innerHTML = '<div class="empty">Nothing here yet.</div>';
+          return;
+        }
+        const tree = document.createElement("div");
+        tree.className = "tree-root";
+        tree.appendChild(renderTree(root, childrenMap));
+        laneView.appendChild(tree);
+      }
+
+      for (const name of laneNames) {
+        const tab = document.createElement("button");
+        tab.className = "tab";
+        tab.dataset.lane = name;
+        const color = SUBJECT_COLOR[name] ? `style="--dot:${SUBJECT_COLOR[name]}"` : "";
+        tab.innerHTML = name === "Streaks"
+          ? "🔥 Streaks"
+          : `<span class="tab-dot" ${color}></span>${name}`;
+        tab.addEventListener("click", () => showLane(name));
+        tabsEl.appendChild(tab);
+      }
+
+      showLane(laneNames[0]);
+    });
+  </script>
+</body>
+</html>

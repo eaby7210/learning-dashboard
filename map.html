@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Map — Learning Roadmap</title>
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f1420">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <main>
+    <h1>Roadmap Map</h1>
+    <div class="sub">Solid arrows = sequence within a subject. Dashed arrows = a
+      documented cross-folder jump. Node color = locked / current / done, from
+      progress.json — the shape mirrors roadmap.md's own flowchart.</div>
+
+    <div class="mermaid-wrap" id="diagram-target"></div>
+  </main>
+
+  <script src="nav.js"></script>
+  <script>
+    // Mermaid auto-initializes on load (startOnLoad defaults to true) and would
+    // otherwise mark a placeholder element "processed" before our data even
+    // arrives, silently skipping the real render later — disable that immediately.
+    mermaid.initialize({ startOnLoad: false, theme: "dark" });
+    renderNav("map.html");
+
+    // Fixed structural template — mirrors roadmap.md's "Detailed cross-folder
+    // flowchart" node groups. Only the fill color is data-driven.
+    const GROUPS = {
+      "C-Cpp":      [["cc03", "Ph0-3", 0, 3], ["cc46", "Ph4-6", 4, 6], ["cc79", "Ph7-9", 7, 9]],
+      "DSA":        [["d13", "Ph1-3", 1, 3], ["d46", "Ph4-6", 4, 6], ["d78", "Ph7-8", 7, 8]],
+      "Python":     [["p04", "Ph0-4", 0, 4], ["p58", "Ph5-8", 5, 8], ["p9", "Ph9", 9, 9]],
+      "JavaScript": [["j04", "Ph0-4", 0, 4], ["j58", "Ph5-8", 5, 8], ["j910", "Ph9-10", 9, 10]],
+      "Golang":     [["g03", "Ph0-3", 0, 3], ["g68", "Ph4-8", 4, 8], ["g9", "Ph9", 9, 9]],
+      "Odin":       [["o04", "Ph0-4", 0, 4], ["o58", "Ph5-8", 5, 8], ["o9", "Ph9", 9, 9]],
+    };
+    const EXTERNAL = [["nc0", "neetcode-submissions"], ["sph", "sphadik"], ["g40", "G4x"]];
+    const DASHED_EDGES = [
+      ["cc03", "d13"], ["cc03", "o04"], ["cc46", "g03"], ["d13", "g03"],
+      ["d46", "g9"], ["d46", "o9"], ["d46", "nc0"], ["g03", "o58"],
+      ["p04", "j04"], ["p58", "p9"], ["p58", "sph"], ["j04", "j910"], ["o9", "g40"],
+    ];
+
+    function groupStatus(phase, start, end) {
+      if (phase > end) return "done";
+      if (phase >= start) return "current";
+      return "locked";
+    }
+    const FILL = { done: "#4caf7d", current: "#5b8def", locked: "#2c3852" };
+
+    loadProgress().then((data) => {
+      const lines = ["flowchart TD"];
+      const styles = [];
+
+      for (const [subject, groups] of Object.entries(GROUPS)) {
+        const phase = data.subjects[subject].phase;
+        lines.push(`  subgraph ${subject.replace(/[^A-Za-z0-9]/g, "")}["${subject}"]`);
+        groups.forEach(([id, label], i) => {
+          lines.push(`    ${id}["${label}"]`);
+          if (i > 0) lines.push(`    ${groups[i - 1][0]} --> ${id}`);
+          const status = groupStatus(phase, groups[i][2], groups[i][3]);
+          styles.push(`  style ${id} fill:${FILL[status]},color:#fff`);
+        });
+        lines.push("  end");
+      }
+
+      for (const [id, label] of EXTERNAL) {
+        lines.push(`  ${id}(["${label}"])`);
+        styles.push(`  style ${id} fill:#3a4258,color:#ccc`);
+      }
+
+      for (const [from, to] of DASHED_EDGES) {
+        lines.push(`  ${from} -.-> ${to}`);
+      }
+
+      lines.push(...styles);
+
+      const def = lines.join("\n");
+      const pre = document.createElement("pre");
+      pre.className = "mermaid";
+      pre.textContent = def;
+      const target = document.getElementById("diagram-target");
+      target.innerHTML = "";
+      target.appendChild(pre);
+      mermaid.run({ nodes: [pre] });
+    });
+  </script>
+</body>
+</html>

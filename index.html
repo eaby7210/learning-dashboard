@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Learning Roadmap — Dashboard</title>
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f1420">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+</head>
+<body>
+  <main>
+    <h1>Learning Roadmap — Dashboard</h1>
+    <div class="sub" id="generated">loading…</div>
+
+    <div class="top">
+      <div class="card">
+        <div class="label">Level</div>
+        <div class="value level-value" id="level">—</div>
+      </div>
+      <div class="card" style="flex: 2;">
+        <div class="label">Total XP</div>
+        <div class="value" id="xp">—</div>
+        <div class="xp-bar-wrap"><div class="xp-bar" id="xp-bar" style="width:0%"></div></div>
+      </div>
+      <div class="card">
+        <div class="label">Streak</div>
+        <div class="value streak-value" id="streak">—</div>
+      </div>
+    </div>
+
+    <section>
+      <h2>Progress Map</h2>
+      <div class="map-grid" id="map"></div>
+    </section>
+
+    <footer id="footer"></footer>
+  </main>
+
+  <script src="nav.js"></script>
+  <script>
+    renderNav("index.html");
+
+    function render(data) {
+      document.getElementById("generated").textContent = "Last generated: " + data.generated;
+      document.getElementById("level").textContent = data.level;
+      document.getElementById("xp").textContent = data.total_xp + " XP";
+      document.getElementById("streak").textContent = data.streak.current + "d";
+
+      const xpIntoLevel = data.total_xp % 500;
+      document.getElementById("xp-bar").style.width = (xpIntoLevel / 500 * 100) + "%";
+
+      const map = document.getElementById("map");
+      map.innerHTML = "";
+      for (const [subject, info] of Object.entries(data.subjects)) {
+        const card = document.createElement("div");
+        card.className = "subject-card" + (info.finished ? " finished" : "");
+        card.style.setProperty("--subject-color", SUBJECT_COLOR[subject] || "var(--border)");
+        const dots = Array.from({ length: info.max_phase }, (_, i) => {
+          const filled = i < info.phase;
+          const cls = info.finished ? "finished" : filled ? "filled" : "";
+          return `<div class="phase-dot ${cls}"></div>`;
+        }).join("");
+        card.innerHTML = `
+          <div class="subject-name">${subject} ${info.finished ? '<span class="check">✓</span>' : ""}</div>
+          <div class="subject-phase">Phase ${info.phase} / ${info.max_phase} — ${info.status}</div>
+          <div class="phase-track">${dots}</div>
+        `;
+        map.appendChild(card);
+      }
+
+      document.getElementById("footer").textContent =
+        "Data: progress.json — refreshed via scripts/gamify.py, source of truth is SESSION-LOG.md.";
+    }
+
+    loadProgress()
+      .then(render)
+      .catch((err) => {
+        document.getElementById("generated").textContent = "Failed to load progress.json: " + err;
+      });
+  </script>
+</body>
+</html>

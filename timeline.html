@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Timeline — Learning Roadmap</title>
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f1420">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+</head>
+<body>
+  <main>
+    <h1>Timeline</h1>
+    <div class="sub">Every phase-sync, jump, and DEVLOG entry, newest first — pulled
+      straight from SESSION-LOG.md and each subject's own DEVLOG.md.</div>
+
+    <div class="timeline" id="timeline"></div>
+  </main>
+
+  <script src="nav.js"></script>
+  <script>
+    renderNav("timeline.html");
+
+    const EVENT_LABEL = { devlog: "DEVLOG", "phase-sync": "Phase sync", jump: "Jump Gate" };
+
+    loadProgress().then((data) => {
+      const el = document.getElementById("timeline");
+      if (data.timeline.length === 0) {
+        el.innerHTML = '<div class="empty">No timeline events yet.</div>';
+        return;
+      }
+      for (const e of data.timeline) {
+        const item = document.createElement("div");
+        item.className = "timeline-item";
+        item.style.setProperty("--dot-color", SUBJECT_COLOR[e.subject] || "var(--muted)");
+        item.innerHTML = `
+          <div class="timeline-date">${e.date} — ${EVENT_LABEL[e.event] || e.event}</div>
+          <div class="timeline-detail">
+            ${e.subject ? `<span class="timeline-subject">${e.subject}</span> — ` : ""}${e.detail}
+          </div>
+        `;
+        el.appendChild(item);
+      }
+    });
+  </script>
+</body>
+</html>
