@@ -18,6 +18,22 @@ self.addEventListener("activate", (event) => {
   );
 });
 
+// Tapping a notification (test or real) focuses an already-open dashboard tab if
+// one exists, otherwise opens a new one.
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  event.waitUntil(
+    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((list) => {
+      for (const client of list) {
+        if (client.url.includes(self.registration.scope) && "focus" in client) {
+          return client.focus();
+        }
+      }
+      if (self.clients.openWindow) return self.clients.openWindow("index.html");
+    })
+  );
+});
+
 // Network-first for everything, falling back to cache only when offline — this is
 // an actively-edited site, correctness/freshness matters more than shaving a round
 // trip. (Cache-first previously meant an edit to any file wouldn't show up for a

@@ -45,6 +45,11 @@
       <div class="map-grid" id="map"></div>
     </section>
 
+    <section class="notif-test">
+      <button id="test-notif-btn">🔔 Test Notification</button>
+      <div class="notif-status" id="notif-status"></div>
+    </section>
+
     <footer id="footer"></footer>
   </main>
 
@@ -201,6 +206,42 @@
     setInterval(() => {
       if (lastToday) renderToday(lastToday, lastActiveToday);
     }, 5 * 60 * 1000);
+
+    // Fires a real local notification through the already-registered service
+    // worker — confirms the phone/PWA notification pipeline works on this device
+    // before wiring up the real ntfy.sh scheduled push.
+    document.getElementById("test-notif-btn").addEventListener("click", async () => {
+      const status = document.getElementById("notif-status");
+      if (!("Notification" in window)) {
+        status.textContent = "This browser doesn't support notifications.";
+        return;
+      }
+      let perm = Notification.permission;
+      if (perm === "default") {
+        perm = await Notification.requestPermission();
+      }
+      if (perm !== "granted") {
+        status.textContent = "Permission denied — enable notifications for this site in your browser/OS settings.";
+        return;
+      }
+      if (!("serviceWorker" in navigator)) {
+        status.textContent = "No service worker support — can't show a notification here.";
+        return;
+      }
+      try {
+        const reg = await navigator.serviceWorker.ready;
+        await reg.showNotification("Learning Roadmap", {
+          body: lastToday
+            ? `Test ping — today's primary is ${lastToday.primary}.`
+            : "Test notification — this is what a real reminder will look like.",
+          icon: "icons/icon-192.png",
+          badge: "icons/icon-192.png",
+        });
+        status.textContent = "Sent — check your notification shade.";
+      } catch (err) {
+        status.textContent = "Failed to show notification: " + err;
+      }
+    });
 
     let resizeTimer;
     window.addEventListener("resize", () => {
