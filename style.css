@@ -106,6 +106,27 @@ nav a.active { color: var(--text); border-bottom-color: var(--accent); }
 .xp-bar-wrap { background: var(--panel2); border-radius: 8px; height: 14px; overflow: hidden; margin-top: 8px; }
 .xp-bar { height: 100%; background: linear-gradient(90deg, var(--accent), var(--gold)); transition: width 0.4s ease; }
 
+/* ---- today card ---- */
+.today-card {
+  background: linear-gradient(135deg, var(--panel2), var(--panel));
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 16px rgba(91, 141, 239, 0.15);
+}
+.today-header { font-weight: bold; margin-bottom: 8px; }
+.today-task { font-size: 0.9rem; margin-top: 4px; }
+.today-label { color: var(--muted); }
+.today-nudge {
+  font-size: 0.85rem;
+  color: var(--gold);
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.today-nudge.today-time { color: var(--accent); }
+
 /* ---- habit heatmap ---- */
 .heatmap-wrap { overflow-x: auto; padding-bottom: 4px; }
 .heatmap { display: flex; gap: 3px; width: max-content; }

@@ -15,6 +15,8 @@
     <h1>Learning Roadmap — Dashboard</h1>
     <div class="sub" id="generated">loading…</div>
 
+    <div class="today-card" id="today-card" hidden></div>
+
     <div class="top">
       <div class="card">
         <div class="label">Level</div>
@@ -124,11 +126,81 @@
       }
     }
 
-    loadProgress()
-      .then(render)
+    const DAY_ICON = { weekday: "🎯", saturday: "🚀", sunday: "🧘" };
+
+    // The deep-work block from the weekly schedule (10:45-13:30, every day type) —
+    // used only to pick the urgency framing, not to gate anything.
+    const SESSION_START = 10 * 60 + 45;
+    const SESSION_END = 13 * 60 + 30;
+    const DAY_ALMOST_OVER = 22 * 60;
+
+    function timeOfDayMessage() {
+      const now = new Date();
+      const nowMin = now.getHours() * 60 + now.getMinutes();
+      if (nowMin < SESSION_START) {
+        return "Upcoming session at 10:45 — remember to log on.";
+      }
+      if (nowMin < SESSION_END) {
+        return "Session time — hope you've started! Don't forget to push your progress.";
+      }
+      if (nowMin < DAY_ALMOST_OVER) {
+        return "Session window's passed — still plenty of day left, jump in when you can.";
+      }
+      return "Day's almost done and nothing logged yet — even a 2-minute rep keeps the streak alive.";
+    }
+
+    function renderToday(t, activeToday) {
+      const card = document.getElementById("today-card");
+      if (!t) { card.hidden = true; return; }
+      card.hidden = false;
+
+      const lines = [];
+
+      if (activeToday) {
+        lines.push(`<div class="today-task">✅ Already logged today — nice. See you tomorrow.</div>`);
+      } else {
+        if (t.never_miss_twice) {
+          lines.push(`<div class="today-nudge">Streak's at 0 — just show up for the
+            two-minute warm-up today. Protect the habit, not the output.</div>`);
+        }
+        lines.push(`<div class="today-nudge today-time">${timeOfDayMessage()}</div>`);
+        if (t.day_type === "sunday") {
+          lines.push(`<div class="today-task">Retrieval/review day — light material, ${t.primary} or whatever's freshest.</div>`);
+        } else {
+          lines.push(`<div class="today-task"><span class="today-label">Primary (${t.primary}):</span> ${t.primary_task || "no pending task found"}</div>`);
+          if (t.secondary) {
+            lines.push(`<div class="today-task"><span class="today-label">Secondary (${t.secondary}):</span> ${t.secondary_task || "no pending task found"}</div>`);
+          }
+        }
+      }
+
+      card.innerHTML = `
+        <div class="today-header">${DAY_ICON[t.day_type] || "📌"} Today — ${t.date} (${t.day_type})</div>
+        ${lines.join("")}
+      `;
+    }
+
+    let lastToday = null, lastActiveToday = false;
+
+    Promise.all([
+      loadProgress(),
+      fetch("today.json").then((r) => (r.ok ? r.json() : null)).catch(() => null),
+    ])
+      .then(([progress, today]) => {
+        render(progress);
+        lastToday = today;
+        lastActiveToday = !!(today && progress.streak.active_dates.includes(today.date));
+        renderToday(lastToday, lastActiveToday);
+      })
       .catch((err) => {
         document.getElementById("generated").textContent = "Failed to load progress.json: " + err;
       });
+
+    // The time-of-day framing (not the task/streak data) changes across the day
+    // even with no new push — re-render that part every few minutes.
+    setInterval(() => {
+      if (lastToday) renderToday(lastToday, lastActiveToday);
+    }, 5 * 60 * 1000);
 
     let resizeTimer;
     window.addEventListener("resize", () => {
