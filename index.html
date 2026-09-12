@@ -32,6 +32,13 @@
     </div>
 
     <section>
+      <h2>Habit — Don't Break the Chain</h2>
+      <div class="heatmap-wrap">
+        <div class="heatmap" id="heatmap"></div>
+      </div>
+    </section>
+
+    <section>
       <h2>Progress Map</h2>
       <div class="map-grid" id="map"></div>
     </section>
@@ -71,8 +78,50 @@
         map.appendChild(card);
       }
 
+      renderHeatmap(data.streak.active_dates);
+
       document.getElementById("footer").textContent =
         "Data: progress.json — refreshed via scripts/gamify.py, source of truth is SESSION-LOG.md.";
+    }
+
+    let lastActiveDates = [];
+
+    function renderHeatmap(activeDates) {
+      if (activeDates) lastActiveDates = activeDates;
+      const active = new Set(lastActiveDates);
+      const el = document.getElementById("heatmap");
+      const wrap = el.parentElement;
+      el.innerHTML = "";
+
+      // Fill the available width: wider on desktop (more weeks of history), fewer
+      // weeks on a narrow phone screen instead of a fixed count either way.
+      const CELL = 11, GAP = 3;
+      const weeksFit = Math.floor((wrap.clientWidth + GAP) / (CELL + GAP));
+      const WEEKS = Math.max(8, Math.min(53, weeksFit));
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      // Start on the Sunday at or before (today - (WEEKS*7 - 1) days), so the grid
+      // ends on today's own column.
+      const start = new Date(today);
+      start.setDate(start.getDate() - (WEEKS * 7 - 1));
+      start.setDate(start.getDate() - start.getDay());
+
+      for (let week = 0; week < WEEKS; week++) {
+        const col = document.createElement("div");
+        col.className = "heatmap-col";
+        for (let day = 0; day < 7; day++) {
+          const d = new Date(start);
+          d.setDate(d.getDate() + week * 7 + day);
+          const iso = d.toISOString().slice(0, 10);
+          const cell = document.createElement("div");
+          const future = d > today;
+          cell.className = "heatmap-cell" + (active.has(iso) ? " active" : "") + (future ? " future" : "");
+          cell.title = iso + (active.has(iso) ? " — active" : "");
+          col.appendChild(cell);
+        }
+        el.appendChild(col);
+      }
     }
 
     loadProgress()
@@ -80,6 +129,12 @@
       .catch((err) => {
         document.getElementById("generated").textContent = "Failed to load progress.json: " + err;
       });
+
+    let resizeTimer;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => renderHeatmap(), 150);
+    });
   </script>
 </body>
 </html>

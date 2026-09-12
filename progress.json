@@ -5,7 +5,10 @@
   "streak": {
     "current": 0,
     "longest": 1,
-    "last_active": "2026-09-07"
+    "last_active": "2026-09-07",
+    "active_dates": [
+      "2026-09-07"
+    ]
   },
   "subjects": {
     "C-Cpp": {
