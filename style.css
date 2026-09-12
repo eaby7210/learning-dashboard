@@ -147,7 +147,10 @@ nav a.active { color: var(--text); border-bottom-color: var(--accent); }
 
 /* ---- advancements: elbow-branching tree ---- */
 .tree-root { padding: 8px 0; overflow-x: auto; }
-.tree-node-wrap { display: flex; flex-direction: column; }
+/* A plain sequence: nodes stack straight down, joined by a short vertical link —
+   no indent. Indentation (.tree-children below) only happens at a real fork. */
+.chain-col { display: flex; flex-direction: column; align-items: flex-start; }
+.chain-link { width: 2px; height: 14px; background: var(--border); margin-left: 20px; }
 .tree-children {
   margin-left: 26px;
   padding-left: 20px;

@@ -38,23 +38,38 @@
       return el;
     }
 
-    function renderTree(node, childrenMap) {
-      const wrap = document.createElement("div");
-      wrap.className = "tree-node-wrap";
-      wrap.appendChild(nodeEl(node));
-      const kids = childrenMap[node.id] || [];
-      if (kids.length) {
-        const container = document.createElement("div");
-        container.className = "tree-children";
-        for (const k of kids) {
-          const row = document.createElement("div");
-          row.className = "tree-child-row";
-          row.appendChild(renderTree(k, childrenMap));
-          container.appendChild(row);
+    // A plain sequence (each node has exactly one child) flows straight down with
+    // no added indent — indentation is reserved for actual forks (2+ children), so
+    // a long linear phase chain (e.g. JavaScript's Ph0-9, no cross-folder jump of
+    // its own) doesn't stair-step sideways for no reason.
+    function renderChain(startNode, childrenMap) {
+      const col = document.createElement("div");
+      col.className = "chain-col";
+      let cursor = startNode;
+      while (cursor) {
+        col.appendChild(nodeEl(cursor));
+        const kids = childrenMap[cursor.id] || [];
+        if (kids.length === 0) {
+          cursor = null;
+        } else if (kids.length === 1) {
+          const link = document.createElement("div");
+          link.className = "chain-link";
+          col.appendChild(link);
+          cursor = kids[0];
+        } else {
+          const fork = document.createElement("div");
+          fork.className = "tree-children";
+          for (const k of kids) {
+            const row = document.createElement("div");
+            row.className = "tree-child-row";
+            row.appendChild(renderChain(k, childrenMap));
+            fork.appendChild(row);
+          }
+          col.appendChild(fork);
+          cursor = null;
         }
-        wrap.appendChild(container);
       }
-      return wrap;
+      return col;
     }
 
     function buildChildrenMap(nodes) {
@@ -89,7 +104,7 @@
         }
         const tree = document.createElement("div");
         tree.className = "tree-root";
-        tree.appendChild(renderTree(root, childrenMap));
+        tree.appendChild(renderChain(root, childrenMap));
         laneView.appendChild(tree);
       }
 
