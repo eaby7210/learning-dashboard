@@ -3,11 +3,12 @@
   "total_xp": 111,
   "level": 1,
   "streak": {
-    "current": 0,
+    "current": 1,
     "longest": 1,
-    "last_active": "2026-09-07",
+    "last_active": "2026-09-13",
     "active_dates": [
-      "2026-09-07"
+      "2026-09-07",
+      "2026-09-13"
     ]
   },
   "subjects": {
@@ -1063,16 +1064,22 @@
   ],
   "timeline": [
     {
-      "date": "2026-09-07",
+      "date": "2026-09-13",
       "subject": "C-Cpp",
       "event": "devlog",
-      "detail": "basics of makefile (syntax, all, clean etc ) header files, compile gcc cmd's etc"
+      "detail": "shipped phase 1 wordcount CLI (state machine + assert.h self-check), triggered"
+    },
+    {
+      "date": "2026-09-13",
+      "subject": "C-Cpp",
+      "event": "phase-sync",
+      "detail": "Phase 1 \u2014 in progress"
     },
     {
       "date": "2026-09-07",
       "subject": "C-Cpp",
-      "event": "phase-sync",
-      "detail": "Phase 1 \u2014 not started"
+      "event": "devlog",
+      "detail": "basics of makefile (syntax, all, clean etc ) header files, compile gcc cmd's etc"
     }
   ]
 }
