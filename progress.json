@@ -13,7 +13,7 @@
   "subjects": {
     "C-Cpp": {
       "phase": 1,
-      "status": "not started",
+      "status": "in progress",
       "xp": 111,
       "max_phase": 9,
       "finished": false
