@@ -93,6 +93,17 @@
 
     let lastActiveDates = [];
 
+    // toISOString() converts to UTC — a local midnight Date in any timezone ahead
+    // of UTC (e.g. IST, +5:30) rolls back to the previous day once converted. Build
+    // the ISO string from local y/m/d components instead, everywhere "today" or a
+    // calendar-grid date needs to become a plain YYYY-MM-DD string.
+    function isoLocal(d) {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
+      return `${y}-${m}-${day}`;
+    }
+
     function renderHeatmap(activeDates) {
       if (activeDates) lastActiveDates = activeDates;
       const active = new Set(lastActiveDates);
@@ -120,7 +131,7 @@
         for (let day = 0; day < 7; day++) {
           const d = new Date(start);
           d.setDate(d.getDate() + week * 7 + day);
-          const iso = d.toISOString().slice(0, 10);
+          const iso = isoLocal(d);
           const cell = document.createElement("div");
           const future = d > today;
           cell.className = "heatmap-cell" + (active.has(iso) ? " active" : "") + (future ? " future" : "");
@@ -195,7 +206,7 @@
     function liveToday() {
       const d = new Date();
       d.setHours(0, 0, 0, 0);
-      return { date: d.toISOString().slice(0, 10), day_type: DAY_TYPE_JS[d.getDay()] };
+      return { date: isoLocal(d), day_type: DAY_TYPE_JS[d.getDay()] };
     }
 
     let lastToday = null;
