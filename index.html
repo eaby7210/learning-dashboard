@@ -185,7 +185,27 @@
       `;
     }
 
-    let lastToday = null, lastActiveToday = false;
+    const DAY_TYPE_JS = { 0: "weekday", 1: "weekday", 2: "weekday", 3: "weekday",
+                           4: "weekday", 5: "saturday", 6: "sunday" };
+
+    // today.json's own date/day_type is a snapshot only regenerated at session end
+    // (can be days stale) — always trust the browser's live clock for "what day is
+    // it", never the snapshot's, or a stale Sunday keeps reporting "already logged
+    // today" forever once Monday actually arrives.
+    function liveToday() {
+      const d = new Date();
+      d.setHours(0, 0, 0, 0);
+      return { date: d.toISOString().slice(0, 10), day_type: DAY_TYPE_JS[d.getDay()] };
+    }
+
+    let lastToday = null;
+
+    function refreshTodayCard() {
+      if (!lastToday) return;
+      const live = liveToday();
+      const activeToday = lastActiveDates.includes(live.date);
+      renderToday({ ...lastToday, date: live.date, day_type: live.day_type }, activeToday);
+    }
 
     Promise.all([
       loadProgress(),
@@ -194,18 +214,16 @@
       .then(([progress, today]) => {
         render(progress);
         lastToday = today;
-        lastActiveToday = !!(today && progress.streak.active_dates.includes(today.date));
-        renderToday(lastToday, lastActiveToday);
+        refreshTodayCard();
       })
       .catch((err) => {
         document.getElementById("generated").textContent = "Failed to load progress.json: " + err;
       });
 
     // The time-of-day framing (not the task/streak data) changes across the day
-    // even with no new push — re-render that part every few minutes.
-    setInterval(() => {
-      if (lastToday) renderToday(lastToday, lastActiveToday);
-    }, 5 * 60 * 1000);
+    // even with no new push, and midnight can roll over while the tab stays open —
+    // re-render the whole card, live date included, every few minutes.
+    setInterval(refreshTodayCard, 5 * 60 * 1000);
 
     // Fires a real local notification through the already-registered service
     // worker — confirms the phone/PWA notification pipeline works on this device
