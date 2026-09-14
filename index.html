@@ -218,23 +218,28 @@
       renderToday({ ...lastToday, date: live.date, day_type: live.day_type }, activeToday);
     }
 
-    Promise.all([
-      loadProgress(),
-      fetch("today.json").then((r) => (r.ok ? r.json() : null)).catch(() => null),
-    ])
-      .then(([progress, today]) => {
-        render(progress);
-        lastToday = today;
-        refreshTodayCard();
-      })
-      .catch((err) => {
-        document.getElementById("generated").textContent = "Failed to load progress.json: " + err;
-      });
+    function loadAll() {
+      return Promise.all([
+        loadProgress(),
+        fetch("today.json").then((r) => (r.ok ? r.json() : null)).catch(() => null),
+      ])
+        .then(([progress, today]) => {
+          render(progress);
+          lastToday = today;
+          refreshTodayCard();
+        })
+        .catch((err) => {
+          document.getElementById("generated").textContent = "Failed to load progress.json: " + err;
+        });
+    }
 
-    // The time-of-day framing (not the task/streak data) changes across the day
-    // even with no new push, and midnight can roll over while the tab stays open —
-    // re-render the whole card, live date included, every few minutes.
-    setInterval(refreshTodayCard, 5 * 60 * 1000);
+    loadAll();
+
+    // A tab/PWA left open never re-fetches on its own otherwise — level/XP/streak/
+    // heatmap would silently go stale for as long as it stays open, same failure
+    // shape as today.json's own staleness bug above. Re-fetch everything, not just
+    // re-render the today card's time-of-day framing.
+    setInterval(loadAll, 5 * 60 * 1000);
 
     // Fires a real local notification through the already-registered service
     // worker — confirms the phone/PWA notification pipeline works on this device
