@@ -119,11 +119,17 @@
 
       const today = new Date();
       today.setHours(0, 0, 0, 0);
-      // Start on the Sunday at or before (today - (WEEKS*7 - 1) days), so the grid
-      // ends on today's own column.
-      const start = new Date(today);
+      // The old version picked a start, THEN re-aligned it back to the preceding
+      // Sunday without extending the span to compensate — that realignment silently
+      // shortened the visible end by however many days it shifted, so the grid
+      // could end days before today (today's own column, and everything after it,
+      // just never got generated at all). Anchor the END instead: the Saturday
+      // closing today's own week, then step back a fixed number of full weeks —
+      // that start is *always* a Sunday already, no extra realignment needed.
+      const weekEnd = new Date(today);
+      weekEnd.setDate(weekEnd.getDate() + (6 - today.getDay()));
+      const start = new Date(weekEnd);
       start.setDate(start.getDate() - (WEEKS * 7 - 1));
-      start.setDate(start.getDate() - start.getDay());
 
       for (let week = 0; week < WEEKS; week++) {
         const col = document.createElement("div");
