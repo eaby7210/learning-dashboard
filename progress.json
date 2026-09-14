@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-14",
+  "generated": "2026-09-15",
   "total_xp": 111,
   "level": 1,
   "streak": {
@@ -1068,7 +1068,7 @@
       "date": "2026-09-14",
       "subject": "C-Cpp",
       "event": "devlog",
-      "detail": "closed the void* mechanism gap \u2014 can't dereference a void* directly, needs a"
+      "detail": "closed the void* mechanism gap \u2014 can't dereference a void* directly, needs a cast to a concrete type first; mentor confirmed it as a solid win"
     },
     {
       "date": "2026-09-14",
@@ -1080,7 +1080,7 @@
       "date": "2026-09-13",
       "subject": "C-Cpp",
       "event": "devlog",
-      "detail": "shipped phase 1 wordcount CLI (state machine + assert.h self-check), triggered"
+      "detail": "shipped phase 1 wordcount CLI (state machine + assert.h self-check), triggered format-string mismatch + OOB array errors on purpose, chased OOB into ASan and found its redzone misses far-off indices"
     },
     {
       "date": "2026-09-07",
