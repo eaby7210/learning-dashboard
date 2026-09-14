@@ -129,6 +129,25 @@ nav a.active { color: var(--text); border-bottom-color: var(--accent); }
 
 /* ---- habit heatmap ---- */
 .heatmap-wrap { overflow-x: auto; padding-bottom: 4px; }
+.heatmap-row { display: flex; align-items: flex-start; }
+/* 32px = .heatmap-daycol's 26px width + 6px margin-right — keep these three in
+   sync so the month row and the day-label column both line up with the grid.
+   DAYCOL_WIDTH in index.html's <script> must match this same 32. */
+.heatmap-daycol-spacer { width: 32px; flex-shrink: 0; }
+.heatmap-daycol {
+  display: flex; flex-direction: column; gap: 3px;
+  width: 26px; flex-shrink: 0; margin-right: 6px;
+}
+.heatmap-daylabel {
+  height: 11px; line-height: 11px;
+  font-size: 0.65rem; color: var(--muted);
+  text-align: right;
+}
+.heatmap-months { position: relative; height: 14px; width: max-content; }
+.heatmap-month-label {
+  position: absolute; top: 0;
+  font-size: 0.7rem; color: var(--muted); white-space: nowrap;
+}
 .heatmap { display: flex; gap: 3px; width: max-content; }
 .heatmap-col { display: flex; flex-direction: column; gap: 3px; }
 .heatmap-cell {

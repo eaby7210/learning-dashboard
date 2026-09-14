@@ -36,7 +36,22 @@
     <section>
       <h2>Habit — Don't Break the Chain</h2>
       <div class="heatmap-wrap">
-        <div class="heatmap" id="heatmap"></div>
+        <div class="heatmap-row">
+          <div class="heatmap-daycol-spacer"></div>
+          <div class="heatmap-months" id="heatmap-months"></div>
+        </div>
+        <div class="heatmap-row">
+          <div class="heatmap-daycol">
+            <div class="heatmap-daylabel"></div>
+            <div class="heatmap-daylabel">Mon</div>
+            <div class="heatmap-daylabel"></div>
+            <div class="heatmap-daylabel">Wed</div>
+            <div class="heatmap-daylabel"></div>
+            <div class="heatmap-daylabel">Fri</div>
+            <div class="heatmap-daylabel"></div>
+          </div>
+          <div class="heatmap" id="heatmap"></div>
+        </div>
       </div>
     </section>
 
@@ -104,17 +119,23 @@
       return `${y}-${m}-${day}`;
     }
 
+    const MONTH_SHORT = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    // Must match .heatmap-daycol-spacer/.heatmap-daycol's width + margin-right in
+    // style.css — the day-label column now shares the row the grid measures against.
+    const DAYCOL_WIDTH = 32;
+
     function renderHeatmap(activeDates) {
       if (activeDates) lastActiveDates = activeDates;
       const active = new Set(lastActiveDates);
       const el = document.getElementById("heatmap");
-      const wrap = el.parentElement;
+      const wrap = el.closest(".heatmap-wrap");
       el.innerHTML = "";
 
       // Fill the available width: wider on desktop (more weeks of history), fewer
       // weeks on a narrow phone screen instead of a fixed count either way.
       const CELL = 11, GAP = 3;
-      const weeksFit = Math.floor((wrap.clientWidth + GAP) / (CELL + GAP));
+      const weeksFit = Math.floor((wrap.clientWidth - DAYCOL_WIDTH + GAP) / (CELL + GAP));
       const WEEKS = Math.max(8, Math.min(53, weeksFit));
 
       const today = new Date();
@@ -145,6 +166,25 @@
           col.appendChild(cell);
         }
         el.appendChild(col);
+      }
+
+      // A month label above the first column where that month appears — same
+      // week-start dates the grid itself just used, so they line up by construction.
+      const monthsEl = document.getElementById("heatmap-months");
+      monthsEl.innerHTML = "";
+      let lastMonth = null;
+      for (let week = 0; week < WEEKS; week++) {
+        const weekStart = new Date(start);
+        weekStart.setDate(weekStart.getDate() + week * 7);
+        const month = weekStart.getMonth();
+        if (month !== lastMonth) {
+          lastMonth = month;
+          const label = document.createElement("div");
+          label.className = "heatmap-month-label";
+          label.style.left = (week * (CELL + GAP)) + "px";
+          label.textContent = MONTH_SHORT[month];
+          monthsEl.appendChild(label);
+        }
       }
     }
 
