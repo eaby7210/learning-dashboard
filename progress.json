@@ -1,14 +1,15 @@
 {
-  "generated": "2026-09-13",
+  "generated": "2026-09-14",
   "total_xp": 111,
   "level": 1,
   "streak": {
-    "current": 1,
-    "longest": 1,
-    "last_active": "2026-09-13",
+    "current": 2,
+    "longest": 2,
+    "last_active": "2026-09-14",
     "active_dates": [
       "2026-09-07",
-      "2026-09-13"
+      "2026-09-13",
+      "2026-09-14"
     ]
   },
   "subjects": {
@@ -1064,16 +1065,22 @@
   ],
   "timeline": [
     {
-      "date": "2026-09-13",
+      "date": "2026-09-14",
       "subject": "C-Cpp",
       "event": "devlog",
-      "detail": "shipped phase 1 wordcount CLI (state machine + assert.h self-check), triggered"
+      "detail": "closed the void* mechanism gap \u2014 can't dereference a void* directly, needs a"
+    },
+    {
+      "date": "2026-09-14",
+      "subject": "C-Cpp",
+      "event": "phase-sync",
+      "detail": "Phase 1 \u2014 in progress"
     },
     {
       "date": "2026-09-13",
       "subject": "C-Cpp",
-      "event": "phase-sync",
-      "detail": "Phase 1 \u2014 in progress"
+      "event": "devlog",
+      "detail": "shipped phase 1 wordcount CLI (state machine + assert.h self-check), triggered"
     },
     {
       "date": "2026-09-07",
