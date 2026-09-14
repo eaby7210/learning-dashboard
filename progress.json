@@ -3,13 +3,14 @@
   "total_xp": 111,
   "level": 1,
   "streak": {
-    "current": 2,
-    "longest": 2,
-    "last_active": "2026-09-14",
+    "current": 3,
+    "longest": 3,
+    "last_active": "2026-09-15",
     "active_dates": [
       "2026-09-07",
       "2026-09-13",
-      "2026-09-14"
+      "2026-09-14",
+      "2026-09-15"
     ]
   },
   "subjects": {
@@ -1026,8 +1027,8 @@
       "icon": "\ud83c\udf24\ufe0f",
       "subject": null,
       "parent": null,
-      "earned": false,
-      "tooltip": "Requirement: 3 consecutive active days."
+      "earned": true,
+      "tooltip": "Earned \u2014 3-day streak reached (longest: 3)."
     },
     {
       "id": "streak-7",
@@ -1065,16 +1066,22 @@
   ],
   "timeline": [
     {
-      "date": "2026-09-14",
+      "date": "2026-09-15",
       "subject": "C-Cpp",
       "event": "devlog",
-      "detail": "closed the void* mechanism gap \u2014 can't dereference a void* directly, needs a cast to a concrete type first; mentor confirmed it as a solid win"
+      "detail": "predicted + confirmed sizeof(int/char/double/int*); hand-decoded a double's raw byte dump to verify the IEEE-754 1/11/52 sign/exponent/mantissa split and little-endian storage, catching a wrong assumption (value was 1.54, not 3.14) from the bits themselves; finished the void* thread - incompatible-pointer-type warning without it, type-punning garbage explained via the same mechanism as a printf format mismatch, named malloc/qsort as real void* uses"
+    },
+    {
+      "date": "2026-09-15",
+      "subject": "C-Cpp",
+      "event": "phase-sync",
+      "detail": "Phase 1 \u2014 in progress"
     },
     {
       "date": "2026-09-14",
       "subject": "C-Cpp",
-      "event": "phase-sync",
-      "detail": "Phase 1 \u2014 in progress"
+      "event": "devlog",
+      "detail": "closed the void* mechanism gap \u2014 can't dereference a void* directly, needs a cast to a concrete type first; mentor confirmed it as a solid win"
     },
     {
       "date": "2026-09-13",
