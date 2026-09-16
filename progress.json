@@ -1,22 +1,23 @@
 {
-  "generated": "2026-09-15",
+  "generated": "2026-09-16",
   "total_xp": 111,
   "level": 1,
   "streak": {
-    "current": 3,
-    "longest": 3,
-    "last_active": "2026-09-15",
+    "current": 4,
+    "longest": 4,
+    "last_active": "2026-09-16",
     "active_dates": [
       "2026-09-07",
       "2026-09-13",
       "2026-09-14",
-      "2026-09-15"
+      "2026-09-15",
+      "2026-09-16"
     ]
   },
   "subjects": {
     "C-Cpp": {
       "phase": 1,
-      "status": "in progress",
+      "status": "in-progress",
       "xp": 111,
       "max_phase": 9,
       "finished": false
@@ -1028,7 +1029,7 @@
       "subject": null,
       "parent": null,
       "earned": true,
-      "tooltip": "Earned \u2014 3-day streak reached (longest: 3)."
+      "tooltip": "Earned \u2014 3-day streak reached (longest: 4)."
     },
     {
       "id": "streak-7",
@@ -1066,16 +1067,16 @@
   ],
   "timeline": [
     {
-      "date": "2026-09-15",
+      "date": "2026-09-16",
       "subject": "C-Cpp",
-      "event": "devlog",
-      "detail": "predicted + confirmed sizeof(int/char/double/int*); hand-decoded a double's raw byte dump to verify the IEEE-754 1/11/52 sign/exponent/mantissa split and little-endian storage, catching a wrong assumption (value was 1.54, not 3.14) from the bits themselves; finished the void* thread - incompatible-pointer-type warning without it, type-punning garbage explained via the same mechanism as a printf format mismatch, named malloc/qsort as real void* uses"
+      "event": "phase-sync",
+      "detail": "Phase 1 \u2014 in-progress"
     },
     {
       "date": "2026-09-15",
       "subject": "C-Cpp",
-      "event": "phase-sync",
-      "detail": "Phase 1 \u2014 in progress"
+      "event": "devlog",
+      "detail": "predicted + confirmed sizeof(int/char/double/int*); hand-decoded a double's raw byte dump to verify the IEEE-754 1/11/52 sign/exponent/mantissa split and little-endian storage, catching a wrong assumption (value was 1.54, not 3.14) from the bits themselves; finished the void* thread - incompatible-pointer-type warning without it, type-punning garbage explained via the same mechanism as a printf format mismatch, named malloc/qsort as real void* uses"
     },
     {
       "date": "2026-09-14",
