@@ -1,10 +1,10 @@
 {
-  "date": "2026-09-16",
+  "date": "2026-09-18",
   "day_type": "weekday",
   "primary": "C-Cpp",
-  "primary_task": "(A) Phase 1: CLI tool parsing argv, basic string processing (word count) +ccpp +phase1 @learn",
+  "primary_task": "(A) Phase 2: manually-managed dynamic array (resizable vector) in raw C +ccpp +phase2 @learn",
   "secondary": null,
   "secondary_task": null,
-  "streak_current": 4,
+  "streak_current": 1,
   "never_miss_twice": false
 }
