@@ -15,6 +15,10 @@
   --c-javascript: #d4e157;
   --c-golang: #00acd7;
   --c-odin: #ff6188;
+  --c-postgresql: #6f9fd8;
+  --c-docker: #2496ed;
+  --c-sysdesign: #b388ff;
+  --c-aws: #ff9900;
 }
 
 *, *::before, *::after { box-sizing: border-box; }

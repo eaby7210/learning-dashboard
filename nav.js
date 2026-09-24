@@ -5,6 +5,10 @@ const SUBJECT_COLOR = {
   "JavaScript": "var(--c-javascript)",
   "Golang": "var(--c-golang)",
   "Odin": "var(--c-odin)",
+  "PostgreSQL": "var(--c-postgresql)",
+  "Docker-CICD": "var(--c-docker)",
+  "SystemDesign": "var(--c-sysdesign)",
+  "AWS": "var(--c-aws)",
 };
 
 function renderNav(active) {

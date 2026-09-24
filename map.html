@@ -43,6 +43,11 @@
       // Gate between Ph4 and Ph5; G4x: MVP build vs. sim/AI/persistence).
       "sphadik":    [["sph04", "Ph0-4", 0, 4], ["sph58", "Ph5-8", 5, 8]],
       "G4x":        [["g4x03", "Ph0-3", 0, 3], ["g4x47", "Ph4-7", 4, 7]],
+      // Career track (roadmap.md "Career Track").
+      "PostgreSQL": [["pg03", "Ph0-3", 0, 3], ["pg46", "Ph4-6", 4, 6], ["pg79", "Ph7-9", 7, 9]],
+      "Docker-CICD": [["dk02", "Ph0-2", 0, 2], ["dk35", "Ph3-5", 3, 5], ["dk68", "Ph6-8", 6, 8]],
+      "SystemDesign": [["sd02", "Ph0-2", 0, 2], ["sd35", "Ph3-5", 3, 5], ["sd69", "Ph6-9", 6, 9]],
+      "AWS":        [["aw03", "Ph0-3", 0, 3], ["aw47", "Ph4-7", 4, 7], ["aw8", "Ph8", 8, 8]],
     };
     // neetcode-submissions has no phase tracking of its own (it's a ledger, not a
     // project) — stays a flat external bubble.
@@ -51,6 +56,8 @@
       ["cc03", "d13"], ["cc03", "o04"], ["cc46", "g03"], ["d13", "g03"],
       ["d46", "g9"], ["d46", "o9"], ["d46", "nc0"], ["g03", "o58"],
       ["p04", "j04"], ["p58", "p9"], ["p58", "sph04"], ["j04", "j910"], ["o9", "g4x03"],
+      ["pg46", "sd35"], ["pg46", "sph04"], ["dk02", "aw03"], ["dk35", "sph04"],
+      ["d46", "sd35"], ["p58", "dk35"], ["sd35", "aw47"], ["aw8", "sph58"],
     ];
 
     function groupStatus(phase, start, end) {
