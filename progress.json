@@ -1,9 +1,9 @@
 {
-  "generated": "2026-09-20",
+  "generated": "2026-09-24",
   "total_xp": 111,
   "level": 1,
   "streak": {
-    "current": 1,
+    "current": 0,
     "longest": 5,
     "last_active": "2026-09-20",
     "active_dates": [
@@ -71,6 +71,34 @@
       "status": "not started",
       "xp": 0,
       "max_phase": 7,
+      "finished": false
+    },
+    "PostgreSQL": {
+      "phase": 0,
+      "status": "not started",
+      "xp": 0,
+      "max_phase": 9,
+      "finished": false
+    },
+    "Docker-CICD": {
+      "phase": 0,
+      "status": "not started",
+      "xp": 0,
+      "max_phase": 8,
+      "finished": false
+    },
+    "SystemDesign": {
+      "phase": 0,
+      "status": "not started",
+      "xp": 0,
+      "max_phase": 9,
+      "finished": false
+    },
+    "AWS": {
+      "phase": 0,
+      "status": "not started",
+      "xp": 0,
+      "max_phase": 8,
       "finished": false
     }
   },
@@ -825,6 +853,380 @@
       "tooltip": "Requirement: reach Phase 6 in G4x."
     },
     {
+      "id": "PostgreSQL-ph0",
+      "tier": "task",
+      "label": "\\? Before Asking",
+      "flavor": "psql knew all along.",
+      "icon": "\ud83d\udc18",
+      "subject": "PostgreSQL",
+      "parent": null,
+      "earned": true,
+      "tooltip": "Earned \u2014 PostgreSQL reached Phase 0."
+    },
+    {
+      "id": "PostgreSQL-ph1",
+      "tier": "task",
+      "label": "NULL Is Not Equal to NULL",
+      "flavor": "Three values walk into a WHERE clause.",
+      "icon": "\u2754",
+      "subject": "PostgreSQL",
+      "parent": "PostgreSQL-ph0",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 1 in PostgreSQL."
+    },
+    {
+      "id": "PostgreSQL-ph2",
+      "tier": "task",
+      "label": "Joined, Not Duplicated",
+      "flavor": "The LEFT JOIN kept its promise, this time.",
+      "icon": "\ud83d\udd17",
+      "subject": "PostgreSQL",
+      "parent": "PostgreSQL-ph1",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 2 in PostgreSQL."
+    },
+    {
+      "id": "PostgreSQL-ph3",
+      "tier": "task",
+      "label": "Normal Form, Abnormal Effort",
+      "flavor": "Every anomaly has a table it belongs to.",
+      "icon": "\ud83d\udcd0",
+      "subject": "PostgreSQL",
+      "parent": "PostgreSQL-ph2",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 3 in PostgreSQL."
+    },
+    {
+      "id": "PostgreSQL-ph4",
+      "tier": "task",
+      "label": "Seq Scan, Explained",
+      "flavor": "The planner had reasons.",
+      "icon": "\ud83d\udd0d",
+      "subject": "PostgreSQL",
+      "parent": "PostgreSQL-ph3",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 4 in PostgreSQL."
+    },
+    {
+      "id": "PostgreSQL-ph5",
+      "tier": "task",
+      "label": "Two Sessions, One Row",
+      "flavor": "Somebody's update got lost. Not anymore.",
+      "icon": "\ud83d\udd12",
+      "subject": "PostgreSQL",
+      "parent": "PostgreSQL-ph4",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 5 in PostgreSQL."
+    },
+    {
+      "id": "PostgreSQL-ph6",
+      "tier": "task",
+      "label": "Triggered, Deliberately",
+      "flavor": "The database started doing things on its own.",
+      "icon": "\u26a1",
+      "subject": "PostgreSQL",
+      "parent": "PostgreSQL-ph5",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 6 in PostgreSQL."
+    },
+    {
+      "id": "PostgreSQL-ph7",
+      "tier": "task",
+      "label": "Tenant B Sees Nothing",
+      "flavor": "The policy said no before the app could.",
+      "icon": "\ud83d\udec2",
+      "subject": "PostgreSQL",
+      "parent": "PostgreSQL-ph6",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 7 in PostgreSQL."
+    },
+    {
+      "id": "PostgreSQL-ph8",
+      "tier": "task",
+      "label": "Restored to One Second Before",
+      "flavor": "The WAL remembers what you dropped.",
+      "icon": "\u23ea",
+      "subject": "PostgreSQL",
+      "parent": "PostgreSQL-ph7",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 8 in PostgreSQL."
+    },
+    {
+      "id": "Docker-CICD-ph0",
+      "tier": "task",
+      "label": "Just a Process",
+      "flavor": "The namespace was hiding it all along.",
+      "icon": "\ud83d\udce6",
+      "subject": "Docker-CICD",
+      "parent": null,
+      "earned": true,
+      "tooltip": "Earned \u2014 Docker-CICD reached Phase 0."
+    },
+    {
+      "id": "Docker-CICD-ph1",
+      "tier": "task",
+      "label": "Cached, Finally",
+      "flavor": "Reordering two lines saved four minutes.",
+      "icon": "\ud83e\uddc5",
+      "subject": "Docker-CICD",
+      "parent": "Docker-CICD-ph0",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 1 in Docker-CICD."
+    },
+    {
+      "id": "Docker-CICD-ph2",
+      "tier": "task",
+      "label": "SIGTERM, Received",
+      "flavor": "PID 1 finally listened.",
+      "icon": "\ud83d\uded1",
+      "subject": "Docker-CICD",
+      "parent": "Docker-CICD-ph1",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 2 in Docker-CICD."
+    },
+    {
+      "id": "Docker-CICD-ph3",
+      "tier": "task",
+      "label": "Up, All of It",
+      "flavor": "Started is not the same as ready.",
+      "icon": "\ud83c\udfbc",
+      "subject": "Docker-CICD",
+      "parent": "Docker-CICD-ph2",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 3 in Docker-CICD."
+    },
+    {
+      "id": "Docker-CICD-ph4",
+      "tier": "task",
+      "label": "Slim, On Purpose",
+      "flavor": "The build stage stayed behind.",
+      "icon": "\ud83e\udeb6",
+      "subject": "Docker-CICD",
+      "parent": "Docker-CICD-ph3",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 4 in Docker-CICD."
+    },
+    {
+      "id": "Docker-CICD-ph5",
+      "tier": "task",
+      "label": "Green Before Push",
+      "flavor": "act ran it first.",
+      "icon": "\u2705",
+      "subject": "Docker-CICD",
+      "parent": "Docker-CICD-ph4",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 5 in Docker-CICD."
+    },
+    {
+      "id": "Docker-CICD-ph6",
+      "tier": "task",
+      "label": "Rolled Back, Calmly",
+      "flavor": "The previous tag was right there.",
+      "icon": "\u21a9\ufe0f",
+      "subject": "Docker-CICD",
+      "parent": "Docker-CICD-ph5",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 6 in Docker-CICD."
+    },
+    {
+      "id": "Docker-CICD-ph7",
+      "tier": "task",
+      "label": "Zero Dropped Requests",
+      "flavor": "Blue became green and nobody noticed.",
+      "icon": "\ud83d\udd35",
+      "subject": "Docker-CICD",
+      "parent": "Docker-CICD-ph6",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 7 in Docker-CICD."
+    },
+    {
+      "id": "SystemDesign-ph0",
+      "tier": "task",
+      "label": "Napkin Math",
+      "flavor": "The envelope had room on the back.",
+      "icon": "\u2709\ufe0f",
+      "subject": "SystemDesign",
+      "parent": null,
+      "earned": true,
+      "tooltip": "Earned \u2014 SystemDesign reached Phase 0."
+    },
+    {
+      "id": "SystemDesign-ph1",
+      "tier": "task",
+      "label": "One Box Down, Nobody Noticed",
+      "flavor": "The load balancer stopped asking it.",
+      "icon": "\u2696\ufe0f",
+      "subject": "SystemDesign",
+      "parent": "SystemDesign-ph0",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 1 in SystemDesign."
+    },
+    {
+      "id": "SystemDesign-ph2",
+      "tier": "task",
+      "label": "There Are Two Hard Things",
+      "flavor": "Invalidation was one of them.",
+      "icon": "\ud83e\uddca",
+      "subject": "SystemDesign",
+      "parent": "SystemDesign-ph1",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 2 in SystemDesign."
+    },
+    {
+      "id": "SystemDesign-ph3",
+      "tier": "task",
+      "label": "Read Your Own Writes",
+      "flavor": "The replica was a few milliseconds behind.",
+      "icon": "\ud83e\ude9e",
+      "subject": "SystemDesign",
+      "parent": "SystemDesign-ph2",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 3 in SystemDesign."
+    },
+    {
+      "id": "SystemDesign-ph4",
+      "tier": "task",
+      "label": "Exactly Once, Allegedly",
+      "flavor": "Idempotency did the real work.",
+      "icon": "\ud83d\udcec",
+      "subject": "SystemDesign",
+      "parent": "SystemDesign-ph3",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 4 in SystemDesign."
+    },
+    {
+      "id": "SystemDesign-ph5",
+      "tier": "task",
+      "label": "Politely Refused",
+      "flavor": "The token bucket ran dry on schedule.",
+      "icon": "\ud83e\udea3",
+      "subject": "SystemDesign",
+      "parent": "SystemDesign-ph4",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 5 in SystemDesign."
+    },
+    {
+      "id": "SystemDesign-ph6",
+      "tier": "task",
+      "label": "Partitioned, Still Correct",
+      "flavor": "The outbox kept its messages.",
+      "icon": "\ud83e\udded",
+      "subject": "SystemDesign",
+      "parent": "SystemDesign-ph5",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 6 in SystemDesign."
+    },
+    {
+      "id": "SystemDesign-ph7",
+      "tier": "task",
+      "label": "Decided, In Writing",
+      "flavor": "The ADR remembers why.",
+      "icon": "\ud83d\udcdc",
+      "subject": "SystemDesign",
+      "parent": "SystemDesign-ph6",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 7 in SystemDesign."
+    },
+    {
+      "id": "SystemDesign-ph8",
+      "tier": "task",
+      "label": "The SLO Paged Me",
+      "flavor": "The error budget was spent on purpose.",
+      "icon": "\ud83d\udcca",
+      "subject": "SystemDesign",
+      "parent": "SystemDesign-ph7",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 8 in SystemDesign."
+    },
+    {
+      "id": "AWS-ph0",
+      "tier": "task",
+      "label": "localhost:4566",
+      "flavor": "No bill arrived.",
+      "icon": "\u2601\ufe0f",
+      "subject": "AWS",
+      "parent": null,
+      "earned": true,
+      "tooltip": "Earned \u2014 AWS reached Phase 0."
+    },
+    {
+      "id": "AWS-ph1",
+      "tier": "task",
+      "label": "Explicitly Denied",
+      "flavor": "Least privilege is a lot of JSON.",
+      "icon": "\ud83d\udd11",
+      "subject": "AWS",
+      "parent": "AWS-ph0",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 1 in AWS."
+    },
+    {
+      "id": "AWS-ph2",
+      "tier": "task",
+      "label": "Presigned, Not Proxied",
+      "flavor": "Django never touched the upload.",
+      "icon": "\ud83e\udea3",
+      "subject": "AWS",
+      "parent": "AWS-ph1",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 2 in AWS."
+    },
+    {
+      "id": "AWS-ph3",
+      "tier": "task",
+      "label": "Cold Start, Warm Result",
+      "flavor": "The thumbnail made itself.",
+      "icon": "\u03bb",
+      "subject": "AWS",
+      "parent": "AWS-ph2",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 3 in AWS."
+    },
+    {
+      "id": "AWS-ph4",
+      "tier": "task",
+      "label": "Private Subnet, Public Question",
+      "flavor": "The NAT gateway had a price tag.",
+      "icon": "\ud83d\udd78\ufe0f",
+      "subject": "AWS",
+      "parent": "AWS-ph3",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 4 in AWS."
+    },
+    {
+      "id": "AWS-ph5",
+      "tier": "task",
+      "label": "Failed Over, On Paper",
+      "flavor": "Multi-AZ is not a read replica.",
+      "icon": "\ud83c\udfd7\ufe0f",
+      "subject": "AWS",
+      "parent": "AWS-ph4",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 5 in AWS."
+    },
+    {
+      "id": "AWS-ph6",
+      "tier": "task",
+      "label": "Delivered At Least Once",
+      "flavor": "The DLQ caught the poison.",
+      "icon": "\ud83d\udce8",
+      "subject": "AWS",
+      "parent": "AWS-ph5",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 6 in AWS."
+    },
+    {
+      "id": "AWS-ph7",
+      "tier": "task",
+      "label": "Destroy, Then Apply Again",
+      "flavor": "The state file is the real infrastructure.",
+      "icon": "\ud83c\udfd7",
+      "subject": "AWS",
+      "parent": "AWS-ph6",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 7 in AWS."
+    },
+    {
       "id": "gate-c-cpp-dsa",
       "tier": "goal",
       "label": "Pointers Paid Off",
@@ -935,6 +1337,94 @@
       "tooltip": "Requirement: log a documented jump out of Odin."
     },
     {
+      "id": "gate-postgresql-systemdesign",
+      "tier": "goal",
+      "label": "One Node Understood",
+      "flavor": "Now make it many.",
+      "icon": "\ud83d\uddc4\ufe0f",
+      "subject": "PostgreSQL",
+      "parent": "PostgreSQL-ph4",
+      "earned": false,
+      "tooltip": "Requirement: log a documented jump out of PostgreSQL."
+    },
+    {
+      "id": "gate-postgresql-sphadik",
+      "tier": "goal",
+      "label": "Locked for Update",
+      "flavor": "The FSM will need that lock.",
+      "icon": "\ud83d\udd10",
+      "subject": "PostgreSQL",
+      "parent": "PostgreSQL-ph5",
+      "earned": false,
+      "tooltip": "Requirement: log a documented jump out of PostgreSQL."
+    },
+    {
+      "id": "gate-docker-cicd-aws",
+      "tier": "goal",
+      "label": "The Cloud Is a Container",
+      "flavor": "The emulator was an image all along.",
+      "icon": "\ud83d\udc33",
+      "subject": "Docker-CICD",
+      "parent": "Docker-CICD-ph2",
+      "earned": false,
+      "tooltip": "Requirement: log a documented jump out of Docker-CICD."
+    },
+    {
+      "id": "gate-docker-cicd-sphadik",
+      "tier": "goal",
+      "label": "Shipped With a Pipeline",
+      "flavor": "The flagship starts with CI.",
+      "icon": "\ud83d\udef3\ufe0f",
+      "subject": "Docker-CICD",
+      "parent": "Docker-CICD-ph5",
+      "earned": false,
+      "tooltip": "Requirement: log a documented jump out of Docker-CICD."
+    },
+    {
+      "id": "gate-dsa-systemdesign",
+      "tier": "goal",
+      "label": "Hashed Into Rings",
+      "flavor": "The hash table grew a circumference.",
+      "icon": "\ud83d\udc8d",
+      "subject": "DSA",
+      "parent": "DSA-ph6",
+      "earned": false,
+      "tooltip": "Requirement: log a documented jump out of DSA."
+    },
+    {
+      "id": "gate-python-docker",
+      "tier": "goal",
+      "label": "Tests, Now Mandatory",
+      "flavor": "CI has something to gate on.",
+      "icon": "\ud83e\uddea",
+      "subject": "Python",
+      "parent": "Python-ph6",
+      "earned": false,
+      "tooltip": "Requirement: log a documented jump out of Python."
+    },
+    {
+      "id": "gate-systemdesign-aws",
+      "tier": "goal",
+      "label": "Paper to Production",
+      "flavor": "The diagram got real AZs.",
+      "icon": "\ud83d\uddfa\ufe0f",
+      "subject": "SystemDesign",
+      "parent": "SystemDesign-ph5",
+      "earned": false,
+      "tooltip": "Requirement: log a documented jump out of SystemDesign."
+    },
+    {
+      "id": "gate-aws-sphadik",
+      "tier": "goal",
+      "label": "Deployed for Real",
+      "flavor": "The flagship has somewhere to live.",
+      "icon": "\ud83d\ude80",
+      "subject": "AWS",
+      "parent": "AWS-challenge",
+      "earned": false,
+      "tooltip": "Requirement: log a documented jump out of AWS."
+    },
+    {
       "id": "C-Cpp-challenge",
       "tier": "challenge",
       "label": "Thread-Safe. Finally.",
@@ -1021,6 +1511,50 @@
       "parent": "G4x-ph6",
       "earned": false,
       "tooltip": "Requirement: finish G4x (Phase 7) with a shipped capstone."
+    },
+    {
+      "id": "PostgreSQL-challenge",
+      "tier": "challenge",
+      "label": "The Database Is the Backend",
+      "flavor": "No app server was harmed.",
+      "icon": "\ud83d\udc18",
+      "subject": "PostgreSQL",
+      "parent": "PostgreSQL-ph8",
+      "earned": false,
+      "tooltip": "Requirement: finish PostgreSQL (Phase 9) with a shipped capstone."
+    },
+    {
+      "id": "Docker-CICD-challenge",
+      "tier": "challenge",
+      "label": "Merge to Main, Walk Away",
+      "flavor": "The pipeline handles it now.",
+      "icon": "\ud83d\udea2",
+      "subject": "Docker-CICD",
+      "parent": "Docker-CICD-ph7",
+      "earned": false,
+      "tooltip": "Requirement: finish Docker-CICD (Phase 8) with a shipped capstone."
+    },
+    {
+      "id": "SystemDesign-challenge",
+      "tier": "challenge",
+      "label": "Whiteboard, Defended",
+      "flavor": "Every box had a number.",
+      "icon": "\ud83c\udfdb\ufe0f",
+      "subject": "SystemDesign",
+      "parent": "SystemDesign-ph8",
+      "earned": false,
+      "tooltip": "Requirement: finish SystemDesign (Phase 9) with a shipped capstone."
+    },
+    {
+      "id": "AWS-challenge",
+      "tier": "challenge",
+      "label": "Architected, Locally",
+      "flavor": "The whole cloud fit on a laptop.",
+      "icon": "\ud83c\udf29\ufe0f",
+      "subject": "AWS",
+      "parent": "AWS-ph7",
+      "earned": false,
+      "tooltip": "Requirement: finish AWS (Phase 8) with a shipped capstone."
     },
     {
       "id": "streak-3",
