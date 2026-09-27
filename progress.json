@@ -1,11 +1,11 @@
 {
-  "generated": "2026-09-24",
-  "total_xp": 111,
+  "generated": "2026-09-27",
+  "total_xp": 222,
   "level": 1,
   "streak": {
-    "current": 0,
+    "current": 2,
     "longest": 5,
-    "last_active": "2026-09-20",
+    "last_active": "2026-09-27",
     "active_dates": [
       "2026-09-07",
       "2026-09-13",
@@ -13,14 +13,16 @@
       "2026-09-15",
       "2026-09-16",
       "2026-09-17",
-      "2026-09-20"
+      "2026-09-20",
+      "2026-09-26",
+      "2026-09-27"
     ]
   },
   "subjects": {
     "C-Cpp": {
-      "phase": 1,
+      "phase": 2,
       "status": "in progress",
-      "xp": 111,
+      "xp": 222,
       "max_phase": 9,
       "finished": false
     },
@@ -134,8 +136,8 @@
       "icon": "\ud83c\udf31",
       "subject": "C-Cpp",
       "parent": "C-Cpp-ph1",
-      "earned": false,
-      "tooltip": "Requirement: reach Phase 2 in C-Cpp."
+      "earned": true,
+      "tooltip": "Earned \u2014 C-Cpp reached Phase 2."
     },
     {
       "id": "C-Cpp-ph3",
@@ -1603,16 +1605,22 @@
   ],
   "timeline": [
     {
-      "date": "2026-09-20",
+      "date": "2026-09-27",
+      "subject": "C-Cpp",
+      "event": "phase-sync",
+      "detail": "Phase 2 \u2014 in progress"
+    },
+    {
+      "date": "2026-09-26",
       "subject": "C-Cpp",
       "event": "devlog",
-      "detail": "pass-by-value vs pass-by-pointer closed via own wordcount code (in_word flag across count_words_chunk calls) \u2014 correctly predicted double-count if in_word were pass-by-value across the fgets loop, named scanf as the same out-param pattern"
+      "detail": "closed Phase 1 - my_strlen by hand, confirmed non-null-terminated array read is real UB via ASan stack-buffer-overflow (not just luck-passed on a plain build); contrasted with EOF (sentinel return value, not file content); closed <string.h> footguns - strcpy has zero bounds checking (GCC's overflow warning is compile-time- constant-only), strncpy \"safe strcpy\" is a myth, verified via printed byte values that no \\0 gets appended when n <= strlen(src). PHASE 1 CLOSED (all syllabus bullets, project, errors-to-practice all done)."
     },
     {
       "date": "2026-09-20",
       "subject": "C-Cpp",
-      "event": "phase-sync",
-      "detail": "Phase 1 \u2014 in progress"
+      "event": "devlog",
+      "detail": "pass-by-value vs pass-by-pointer closed via own wordcount code (in_word flag across count_words_chunk calls) \u2014 correctly predicted double-count if in_word were pass-by-value across the fgets loop, named scanf as the same out-param pattern"
     },
     {
       "date": "2026-09-17",
