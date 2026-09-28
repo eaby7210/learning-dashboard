@@ -16,6 +16,7 @@
     <div class="sub" id="generated">loading…</div>
 
     <div class="today-card" id="today-card" hidden></div>
+    <div class="notif-banner" id="notif-banner" hidden></div>
 
     <div class="top">
       <div class="card">
@@ -287,18 +288,48 @@
     // re-render the today card's time-of-day framing.
     setInterval(loadAll, 5 * 60 * 1000);
 
+    // Requesting permission only works from a user gesture (a click) — browsers
+    // silently ignore/reject a bare requestPermission() call on page load. So the
+    // banner below still needs its own "Enable" button; what we CAN do unprompted
+    // on load is check the current state and surface a visible banner instead of
+    // only offering permission buried in the test button at the bottom.
+    async function ensurePermission() {
+      if (!("Notification" in window)) return "unsupported";
+      let perm = Notification.permission;
+      if (perm === "default") perm = await Notification.requestPermission();
+      return perm;
+    }
+
+    function renderNotifBanner() {
+      const banner = document.getElementById("notif-banner");
+      if (!("Notification" in window)) { banner.hidden = true; return; }
+      const perm = Notification.permission;
+      if (perm === "granted") { banner.hidden = true; return; }
+      banner.hidden = false;
+      if (perm === "denied") {
+        banner.innerHTML = `🔕 Notifications are blocked for this site — enable them in your
+          browser/OS site settings to get daily reminders.`;
+      } else {
+        banner.innerHTML = `🔔 Enable notifications to get your daily reminder.
+          <button id="notif-enable-btn">Enable</button>`;
+        document.getElementById("notif-enable-btn").addEventListener("click", async () => {
+          await ensurePermission();
+          renderNotifBanner();
+        });
+      }
+    }
+    renderNotifBanner();
+
     // Fires a real local notification through the already-registered service
     // worker — confirms the phone/PWA notification pipeline works on this device
     // before wiring up the real ntfy.sh scheduled push.
     document.getElementById("test-notif-btn").addEventListener("click", async () => {
       const status = document.getElementById("notif-status");
-      if (!("Notification" in window)) {
+      const perm = await ensurePermission();
+      renderNotifBanner();
+      if (perm === "unsupported") {
         status.textContent = "This browser doesn't support notifications.";
         return;
-      }
-      let perm = Notification.permission;
-      if (perm === "default") {
-        perm = await Notification.requestPermission();
       }
       if (perm !== "granted") {
         status.textContent = "Permission denied — enable notifications for this site in your browser/OS settings.";

@@ -313,6 +313,31 @@ nav a.active { color: var(--text); border-bottom-color: var(--accent); }
 /* ---- mermaid map page ---- */
 .mermaid-wrap { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 20px; overflow-x: auto; }
 
+/* ---- notification banner (proactive, on load) ---- */
+.notif-banner {
+  background: var(--panel);
+  border: 1px solid var(--gold);
+  border-radius: 10px;
+  padding: 10px 16px;
+  margin-bottom: 24px;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.notif-banner button {
+  background: var(--gold);
+  color: #14192a;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
 /* ---- notification test ---- */
 .notif-test { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
 #test-notif-btn {
