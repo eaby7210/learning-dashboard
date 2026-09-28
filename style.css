@@ -383,3 +383,37 @@ footer { color: var(--muted); font-size: 0.75rem; margin: 32px 0; }
   .timeline { padding-left: 16px; }
   .timeline-item::before { left: -21px; }
 }
+
+/* ---- schedule page ---- */
+.sched-now { background: linear-gradient(135deg, var(--panel2), var(--panel)); border: 1px solid var(--accent); border-radius: 12px; padding: 14px 20px; margin-bottom: 20px; }
+.sched-now .now-label { color: var(--muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.sched-now .now-main { display: flex; align-items: center; gap: 12px; margin: 6px 0 2px; flex-wrap: wrap; font-size: 1.1rem; }
+.sched-now .now-left { color: var(--gold); font-weight: bold; }
+.sched-now .now-next { color: var(--muted); font-size: 0.8rem; }
+
+.sched-controls { display: flex; align-items: stretch; gap: 8px; margin-bottom: 10px; }
+.sched-controls > button, .sched-quick button, .day-tabs button {
+  background: var(--panel); color: var(--text); border: 1px solid var(--border); border-radius: 8px;
+  font-family: inherit; font-size: 0.85rem; cursor: pointer; padding: 8px 14px;
+}
+.sched-controls > button:hover, .sched-quick button:hover, .day-tabs button:hover { border-color: var(--accent); }
+.day-tabs { display: flex; gap: 6px; flex: 1; overflow-x: auto; }
+.day-tabs button { flex: 1; min-width: 48px; }
+.day-tabs button.active { background: var(--accent); border-color: var(--accent); color: #0f1420; font-weight: bold; }
+.day-tabs button.is-today:not(.active) { border-color: var(--gold); color: var(--gold); }
+.sched-quick { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+.sched-viewing { color: var(--muted); font-size: 0.8rem; margin-left: 4px; }
+
+.sched-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-bottom: 14px; font-size: 0.75rem; color: var(--muted); }
+.legend-item i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: middle; }
+
+.sched-table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 28px; font-size: 0.85rem; }
+.sched-table th { text-align: left; color: var(--muted); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; padding: 10px 14px; background: var(--panel2); }
+.sched-table td { padding: 10px 14px; border-top: 1px solid var(--border); vertical-align: top; }
+.sched-table td.t { white-space: nowrap; color: var(--muted); }
+.sched-table td.n, .sched-table .n { color: var(--muted); font-size: 0.8rem; }
+.sched-table tr.past { opacity: 0.45; }
+.sched-table tr.now { background: rgba(91, 141, 239, 0.14); box-shadow: inset 3px 0 0 var(--accent); }
+#week-table tr { cursor: pointer; }
+.chip { display: inline-block; padding: 2px 10px; border-radius: 999px; border: 1px solid var(--chip); background: color-mix(in srgb, var(--chip) 18%, transparent); }
+@media (max-width: 600px) { .sched-table td.n, .sched-table th:nth-child(3) { display: none; } #week-table td.n, #week-table th:nth-child(4) { display: table-cell; } }

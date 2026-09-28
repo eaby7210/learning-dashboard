@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Schedule — Learning Roadmap</title>
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f1420">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>%F0%9F%8E%AE</text></svg>">
+</head>
+<body>
+  <main>
+    <h1>Schedule</h1>
+    <div class="sub">Daily timetable — WFH 16:00–02:00, wake 10:00. A "day" runs 10:00 → 10:00,
+      so 01:00 still shows yesterday's block. Source of truth: <code>timetable.md</code>.</div>
+
+    <div class="sched-now" id="sched-now"></div>
+
+    <div class="sched-controls">
+      <button id="btn-prev" aria-label="Previous day">‹</button>
+      <div class="day-tabs" id="day-tabs"></div>
+      <button id="btn-next" aria-label="Next day">›</button>
+    </div>
+    <div class="sched-quick">
+      <button id="btn-today">Today</button>
+      <button id="btn-tomorrow">Tomorrow</button>
+      <span class="sched-viewing" id="sched-viewing"></span>
+    </div>
+
+    <div class="sched-legend" id="sched-legend"></div>
+
+    <table class="sched-table" id="sched-table">
+      <thead><tr><th>Time</th><th>Block</th><th>Notes</th></tr></thead>
+      <tbody></tbody>
+    </table>
+
+    <h2>Week at a glance</h2>
+    <table class="sched-table" id="week-table">
+      <thead><tr><th>Day</th><th>Learning</th><th>Midday slot</th><th>Extra</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </main>
+
+  <script src="nav.js"></script>
+  <script>
+    renderNav("schedule.html");
+
+    const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    const CATS = {
+      sleep:   ["Sleep",    "var(--c-sysdesign)"],
+      meal:    ["Meal",     "var(--gold)"],
+      learn:   ["Learning", "var(--accent)"],
+      workout: ["Workout",  "var(--c-odin)"],
+      walk:    ["Walk",     "var(--green)"],
+      work:    ["Work",     "var(--muted)"],
+      free:    ["Free / chores", "var(--border)"],
+    };
+
+    // [start, end, category, block, note]. End ≤ start wraps past midnight.
+    const r = (s, e, c, b, n = "") => [s, e, c, b, n];
+
+    function dayRows(d) {
+      const weekday = d < 5;
+      if (weekday) {
+        const slot =
+          d === 0 || d === 2 ? [
+            r("12:00", "13:15", "workout", "Workout", "Home, dumbbells — follow Fitify. ~75 min, mostly rest."),
+            r("13:15", "14:00", "free", "Shower, rest"),
+          ] : d === 1 || d === 3 ? [
+            r("12:00", "12:45", "learn", "NeetCode", "~2 problems → the ~100 by Mar 2027 target."),
+            r("12:45", "14:00", "free", "Shower, rest"),
+          ] : [
+            r("12:00", "14:00", "free", "Free / chores / rest"),
+          ];
+        return [
+          r("10:00", "10:15", "free", "Wake", "Water, 5 min daylight, no phone."),
+          r("10:15", "10:30", "free", "Wash + 5 min mobility"),
+          r("10:30", "11:00", "meal", "Breakfast", "Protein-dominant: eggs / Greek yogurt + fruit. Small carb."),
+          r("11:00", "12:00", "learn", "Learning — career lane", "PG → Docker → SystemDesign → AWS. One phase per session."),
+          ...slot,
+          r("14:00", "14:45", "meal", "Lunch", "Main meal. Meat = main, rice = small side."),
+          r("14:45", "15:30", "walk", "Walk 1 (slow, 45 min)", "~5k steps."),
+          r("15:30", "16:00", "free", "Chores / admin / desk setup", "Write 3 work priorities."),
+          r("16:00", "20:00", "work", "Work block 1", "Stand + move 5 min each hour."),
+          r("20:00", "20:45", "meal", "Dinner", "Protein-dominant, lightest carbs. Last real meal."),
+          r("20:45", "21:15", "walk", "Walk 2 (slow, 30 min)", "~3k steps."),
+          r("21:15", "02:00", "work", "Work block 2", "Optional light protein snack ~00:00 (yogurt / shake)."),
+          r("02:00", "02:15", "free", "Shutdown", d === 4 ? "Note tomorrow's target. Fri: brag doc, 5 min." : "Note tomorrow's learning target."),
+          r("02:15", "02:45", "free", "Wind down", "Dim lights, wash, magnesium, screens off. No learning."),
+          r("02:45", "10:00", "sleep", "Sleep", "Lights out 02:45, asleep ~03:00 (~7 h)."),
+        ];
+      }
+      const common = [
+        r("10:00", "10:30", "free", "Wake + wash", "Water, daylight, no phone."),
+        r("10:30", "11:00", "meal", "Breakfast"),
+      ];
+      if (d === 5) return [
+        ...common,
+        r("11:00", "13:00", "learn", "Systems lane", "C-Cpp now; DSA / Go after the jump gate."),
+        r("13:00", "14:00", "meal", "Lunch"),
+        r("14:00", "15:15", "workout", "Workout", "Home, dumbbells — follow Fitify."),
+        r("15:15", "15:30", "free", "Shower, rest"),
+        r("15:30", "16:15", "walk", "Walk (slow)"),
+        r("16:15", "20:00", "free", "Free / social / errands"),
+        r("20:00", "20:45", "meal", "Dinner"),
+        r("20:45", "02:00", "free", "Free / wind down", "Keep bedtime within ~1 h of weekday."),
+        r("02:00", "10:00", "sleep", "Sleep"),
+      ];
+      return [
+        ...common,
+        r("11:00", "12:00", "learn", "NeetCode", "1 h."),
+        r("12:00", "12:15", "learn", "Weekly review", "SESSION-LOG row, learning-state sync, next week's phase."),
+        r("12:15", "14:00", "free", "Meal prep + chores", "Chicken / mince / eggs for the week."),
+        r("14:00", "14:45", "meal", "Lunch"),
+        r("14:45", "15:30", "walk", "Walk (slow)"),
+        r("15:30", "20:00", "free", "Free (family / rest)"),
+        r("20:00", "20:45", "meal", "Dinner"),
+        r("20:45", "02:00", "free", "Free / wind down", "Lights out by ~02:00."),
+        r("02:00", "10:00", "sleep", "Sleep"),
+      ];
+    }
+
+    // Day runs 10:00 → 10:00: anything before 10:00 counts as the next calendar day.
+    const toMin = (t) => { const [h, m] = t.split(":").map(Number); const v = h * 60 + m; return v < 600 ? v + 1440 : v; };
+    const fmt = (t) => t;
+
+    function mondayIndex(date) { return (date.getDay() + 6) % 7; }
+    function nowState() {
+      const n = new Date();
+      let m = n.getHours() * 60 + n.getMinutes();
+      let day = mondayIndex(n);
+      if (m < 600) { m += 1440; day = (day + 6) % 7; }  // still "yesterday's" day
+      return { day, m };
+    }
+
+    let viewDay = nowState().day;
+
+    function renderLegend() {
+      document.getElementById("sched-legend").innerHTML = Object.values(CATS)
+        .map(([label, color]) => `<span class="legend-item"><i style="background:${color}"></i>${label}</span>`).join("");
+    }
+
+    function renderTabs() {
+      const { day: today } = nowState();
+      document.getElementById("day-tabs").innerHTML = DAYS.map((d, i) =>
+        `<button data-day="${i}" class="${i === viewDay ? "active" : ""}${i === today ? " is-today" : ""}">${d}</button>`).join("");
+      document.querySelectorAll("#day-tabs button").forEach((b) =>
+        b.addEventListener("click", () => { viewDay = Number(b.dataset.day); render(); }));
+      const rel = (viewDay - today + 7) % 7;
+      document.getElementById("sched-viewing").textContent =
+        rel === 0 ? "Viewing today" : rel === 1 ? "Viewing tomorrow" : `Viewing ${DAYS[viewDay]}`;
+    }
+
+    function renderTable() {
+      const { day: today, m } = nowState();
+      const rows = dayRows(viewDay);
+      const tbody = document.querySelector("#sched-table tbody");
+      tbody.innerHTML = rows.map(([s, e, c, b, n]) => {
+        const start = toMin(s);
+        let end = toMin(e);
+        if (end <= start) end += 1440;
+        let cls = "";
+        if (viewDay === today) cls = m >= end ? "past" : m >= start ? "now" : "";
+        return `<tr class="${cls}" data-start="${start}"><td class="t">${fmt(s)}–${fmt(e)}</td>
+          <td><span class="chip" style="--chip:${CATS[c][1]}">${b}</span></td><td class="n">${n}</td></tr>`;
+      }).join("");
+      const nowRow = tbody.querySelector("tr.now");
+      if (nowRow && !renderTable.scrolled) { renderTable.scrolled = true; nowRow.scrollIntoView({ block: "center" }); }
+    }
+
+    function renderNow() {
+      const { day, m } = nowState();
+      const rows = dayRows(day);
+      const idx = rows.findIndex(([s, e]) => { const a = toMin(s); let z = toMin(e); if (z <= a) z += 1440; return m >= a && m < z; });
+      const el = document.getElementById("sched-now");
+      if (idx < 0) { el.hidden = true; return; }
+      el.hidden = false;
+      const cur = rows[idx], nxt = rows[idx + 1];
+      const left = (() => { let z = toMin(cur[1]); if (z <= toMin(cur[0])) z += 1440; return z - m; })();
+      const h = Math.floor(left / 60), mm = left % 60;
+      el.innerHTML = `<div class="now-label">Now · ${DAYS[day]}</div>
+        <div class="now-main"><span class="chip" style="--chip:${CATS[cur[2]][1]}">${cur[3]}</span>
+        <span class="now-left">${h ? h + "h " : ""}${mm}m left</span></div>
+        ${nxt ? `<div class="now-next">Next ${nxt[0]} — ${nxt[3]}</div>` : ""}`;
+    }
+
+    function renderWeek() {
+      const tbody = document.querySelector("#week-table tbody");
+      tbody.innerHTML = DAYS.map((name, d) => {
+        const rows = dayRows(d);
+        const learn = rows.find((x) => x[2] === "learn");
+        const slot = rows.find((x) => (x[2] === "workout" || x[2] === "learn") && x !== learn);
+        const extra = d === 4 ? "Brag doc, 5 min" : d === 6 ? "Weekly review 15 min" : "";
+        return `<tr class="${d === viewDay ? "now" : ""}" data-day="${d}"><td class="t">${name}</td>
+          <td>${learn[3]} <span class="n">${learn[0]}</span></td>
+          <td>${slot ? `${slot[3]} <span class="n">${slot[0]}</span>` : "—"}</td><td class="n">${extra}</td></tr>`;
+      }).join("");
+      tbody.querySelectorAll("tr").forEach((tr) =>
+        tr.addEventListener("click", () => { viewDay = Number(tr.dataset.day); render(); window.scrollTo({ top: 0, behavior: "smooth" }); }));
+    }
+
+    function render() { renderTabs(); renderTable(); renderNow(); renderWeek(); }
+
+    const shift = (n) => { viewDay = (viewDay + n + 7) % 7; render(); };
+    document.getElementById("btn-prev").addEventListener("click", () => shift(-1));
+    document.getElementById("btn-next").addEventListener("click", () => shift(1));
+    document.getElementById("btn-today").addEventListener("click", () => { viewDay = nowState().day; render(); });
+    document.getElementById("btn-tomorrow").addEventListener("click", () => { viewDay = (nowState().day + 1) % 7; render(); });
+
+    renderLegend();
+    render();
+    setInterval(() => { renderTable(); renderNow(); }, 60 * 1000);  // keep "now" row live
+  </script>
+</body>
+</html>

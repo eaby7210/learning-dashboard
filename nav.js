@@ -17,6 +17,7 @@ function renderNav(active) {
     ["map.html", "Map"],
     ["advancements.html", "Advancements"],
     ["timeline.html", "Timeline"],
+    ["schedule.html", "Schedule"],
   ];
   const nav = document.createElement("nav");
   nav.innerHTML = pages
