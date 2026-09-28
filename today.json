@@ -1,6 +1,6 @@
 {
-  "date": "2026-09-27",
-  "day_type": "sunday",
+  "date": "2026-09-28",
+  "day_type": "weekday",
   "primary": "C-Cpp",
   "primary_task": "(A) Phase 2: manually-managed dynamic array (resizable vector) in raw C +ccpp +phase2 @learn",
   "secondary": null,
