@@ -1,8 +1,9 @@
 {
   "date": "2026-10-09",
   "day_type": "weekday",
-  "primary": "C-Cpp",
-  "primary_task": "(A) Phase 2: manually-managed dynamic array (resizable vector) in raw C +ccpp +phase2 @learn",
+  "primary": "Python",
+  "primary_task": "Python Ph0 \u2014 venv/pyenv: why isolate per-project environments at all (0.32 h)",
+  "source": "calendar",
   "secondary": null,
   "secondary_task": null,
   "streak_current": 0,
