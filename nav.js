@@ -9,6 +9,7 @@ const SUBJECT_COLOR = {
   "Docker-CICD": "var(--c-docker)",
   "SystemDesign": "var(--c-sysdesign)",
   "AWS": "var(--c-aws)",
+  "GameDev": "var(--c-gamedev)",
 };
 
 function renderNav(active) {
