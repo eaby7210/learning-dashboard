@@ -29,13 +29,13 @@
         <button id="cal-next" aria-label="Next month">›</button>
         <button id="cal-today">Today</button>
       </div>
-      <div class="cal-legend">Solid = fast-track (core). Dashed = optional parallel lane (never moves core dates).</div>
+      <div class="cal-legend">Solid = fast-track (core). ★ gold = dated catch-up (Python Ph0-4 before Ph5). Dashed = optional lane (never moves core dates).</div>
       <div class="cal-grid" id="cal-grid"></div>
       <div class="cal-agenda" id="cal-agenda"></div>
     </section>
 
     <section>
-      <h2>Phases — fast track</h2>
+      <h2>Phases — fast track + catch-up</h2>
       <table class="sched-table" id="cal-phases">
         <thead><tr><th>Phase</th><th>Topics</th><th>Hours left</th><th>Planned</th><th>Left</th></tr></thead>
         <tbody></tbody>
@@ -70,7 +70,6 @@
       let view = new Date(now.getFullYear(), now.getMonth(), 1);
       let selected = null;
       const byDate = Object.fromEntries(cal.days.map((d) => [d.date, d]));
-      const iso = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 
       $("cal-sub").textContent =
         `Generated ${cal.today} · ${hrs(cal.core_hours_left)} of fast-track left · projected done ${cal.core_done_date ? fmtDate(cal.core_done_date) : "—"} · ` +
@@ -85,8 +84,10 @@
           `<div class="cal-ms-sub">${fmtDate(m.date)} · ready ${fmtDate(m.projected_ready)} · ${ok ? "+" + m.slack_days + " d slack" : plural(-m.slack_days, "day") + " behind"}</div></div>`;
       }).join("");
 
+      const cuIds = new Set(cal.topics.filter((t) => t.lane === "catchup").map((t) => t.id));
       function chip(e, opt) {
-        return `<span class="cal-chip${opt ? " opt" : ""}" style="--chip:${colorOf(e.subject)}" title="${esc(e.title)} (${hrs(e.hours)})">${esc(e.subject)} ${e.phase}</span>`;
+        const cu = cuIds.has(e.topic_id);
+        return `<span class="cal-chip${cu ? " cu" : opt ? " opt" : ""}" style="--chip:${colorOf(e.subject)}" title="${esc(e.title)} (${hrs(e.hours)})">${cu ? "★ " : ""}${esc(e.subject)} ${e.phase}</span>`;
       }
 
       function renderMonth() {
@@ -125,7 +126,7 @@
           (items.length ? items.map(([e, o]) => {
             const t = cal.topics.find((x) => x.id === e.topic_id);
             const end = t && t.end ? daysBetween(now, parseISO(t.end)) : null;
-            return `<div class="cal-item${o ? " opt" : ""}" style="--chip:${colorOf(e.subject)}"><b>${esc(e.subject)} Ph${e.phase}</b> · ${esc(e.title)} <span class="muted">· ${hrs(e.hours)} today${end !== null ? ` · topic ends ${end <= 0 ? "today" : "in " + plural(end, "day")}` : ""}${o ? " · optional" : ""}</span></div>`;
+            return `<div class="cal-item${cuIds.has(e.topic_id) ? " cu" : o ? " opt" : ""}" style="--chip:${colorOf(e.subject)}"><b>${esc(e.subject)} Ph${e.phase}</b> · ${esc(e.title)} <span class="muted">· ${hrs(e.hours)} today${end !== null ? ` · topic ends ${end <= 0 ? "today" : "in " + plural(end, "day")}` : ""}${o ? " · optional" : ""}</span></div>`;
           }).join("") : `<div class="empty">Nothing scheduled.</div>`);
       }
 
@@ -135,13 +136,13 @@
       renderMonth(); renderAgenda();
 
       const leftStr = (end) => { if (!end) return "—"; const n = daysBetween(now, parseISO(end)); return n < 0 ? `${-n} d late` : n === 0 ? "today" : plural(n, "day"); };
-      $("cal-phases").querySelector("tbody").innerHTML = cal.phases.filter((p) => p.lane === "core").map((p) =>
+      $("cal-phases").querySelector("tbody").innerHTML = cal.phases.filter((p) => p.lane !== "optional").map((p) =>
         `<tr><td><span class="cal-dot" style="background:${colorOf(p.subject)}"></span>${esc(p.subject)} Ph${p.phase}</td>` +
         `<td>${p.done_topics}/${p.topics}${p.skimmed_topics ? ` (${p.skimmed_topics} skimmed)` : ""}</td>` +
         `<td>${p.hours_left ? (p.estimate ? "~" : "") + hrs(p.hours_left) : "done"}</td>` +
         `<td>${p.start ? fmtDate(p.start) + " → " + fmtDate(p.end) : "—"}</td><td>${p.hours_left ? leftStr(p.end) : "✓"}</td></tr>`).join("");
 
-      $("cal-topics").querySelector("tbody").innerHTML = cal.topics.filter((t) => t.lane === "core" && t.status === "pending").slice(0, 12).map((t) =>
+      $("cal-topics").querySelector("tbody").innerHTML = cal.topics.filter((t) => t.lane !== "optional" && t.status === "pending" && t.start).sort((a, b) => a.start.localeCompare(b.start)).slice(0, 12).map((t) =>
         `<tr><td><span class="cal-dot" style="background:${colorOf(t.subject)}"></span><b>${esc(t.subject)} Ph${t.phase}</b> · ${esc(t.title)}</td>` +
         `<td>${hrs(t.hours)}</td><td>${fmtDate(t.start)}${t.end !== t.start ? " → " + fmtDate(t.end) : ""}</td><td>${leftStr(t.end)}</td></tr>`).join("");
 

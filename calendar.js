@@ -10,6 +10,7 @@ const DAY_MS = 86400000;
 function dayStart(d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
 function parseISO(s) { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); }
 function daysBetween(a, b) { return Math.round((dayStart(b) - dayStart(a)) / DAY_MS); }
+function iso(d) { return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; }
 function fmtDate(iso) { return parseISO(iso).toLocaleDateString(undefined, { weekday: "short", day: "numeric", month: "short" }); }
 function plural(n, w) { return `${n} ${w}${Math.abs(n) === 1 ? "" : "s"}`; }
 function hrs(h) { return `${Math.round(h * 10) / 10} h`; }
@@ -21,6 +22,12 @@ function calendarMessages(cal, now = new Date()) {
   const stale = daysBetween(gen, now);
   if (stale > 1) msgs.push({ kind: "warn", text: `Calendar was generated ${plural(stale, "day")} ago — run refresh_dashboard.py to re-flow dates.` });
 
+  (cal.catchup || []).filter((c) => c.hours_left > 0).forEach((c) => {
+    const rush = cal.rush_dates && cal.rush_dates[iso(now)];
+    msgs.push({ kind: c.need_skim_pct > 0 ? "warn" : "milestone",
+      text: `${rush ? "RUSH DAY · " : ""}${c.subject} Ph${c.phases[0]}-${c.phases[1]} catch-up — ${plural(daysBetween(now, parseISO(c.due)), "day")} to ${fmtDate(c.due)} · ${hrs(c.hours_left)} left vs ${hrs(c.capacity_until_due)} of slots` +
+        (c.need_skim_pct > 0 ? ` · skim ≥${c.need_skim_pct}% of the rest (mentor-tested)` : " · fits at full hours") });
+  });
   const pendingCore = cal.topics.filter((t) => t.lane === "core" && t.status === "pending" && t.start);
   const first = pendingCore[0];
   if (first) {
@@ -52,7 +59,7 @@ function calendarMessages(cal, now = new Date()) {
 
 function renderCalendarBanner(el) {
   loadCalendar().then((cal) => {
-    const msgs = calendarMessages(cal).slice(0, 4);
+    const msgs = calendarMessages(cal).slice(0, 5);
     el.innerHTML = msgs.map((m) => `<div class="cal-msg ${m.kind}">${m.text.replace(/</g, "&lt;")}</div>`).join("") +
       `<a class="cal-more" href="calendar.html">Open calendar →</a>`;
     el.hidden = false;

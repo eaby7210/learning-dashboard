@@ -456,3 +456,5 @@ footer { color: var(--muted); font-size: 0.75rem; margin: 32px 0; }
 .cal-item .muted { color: var(--muted); }
 .cal-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
 @media (max-width: 600px) { .cal-cell { min-height: 58px; } .cal-chip { font-size: 0.6rem; } }
+.cal-chip.cu { background: color-mix(in srgb, var(--chip) 30%, transparent); border: 1px solid var(--gold); border-left: 3px solid var(--gold); opacity: 1; }
+.cal-item.cu { border-left-color: var(--gold); }
