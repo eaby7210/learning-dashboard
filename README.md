@@ -30,4 +30,5 @@ git push
 - `map.html` — Mermaid graph of the roadmap's phase/jump structure
 - `advancements.html` — the Minecraft-style advancement tree, tabbed per subject
 - `timeline.html` — chronological feed of phase syncs, jumps, and DEVLOG entries
+- `calendar.html` — dated, topic-level plan (month grid, milestones, phases, "N days left" messages; same banner on Overview/Schedule). Data: `calendar.json` from `scripts/calendar_plan.py`, refreshed by `scripts/refresh_dashboard.py`; mentors mark topics via `scripts/topic_done.py`
 - `schedule.html` — daily timetable (day tabs, live "now" row, today/tomorrow); rows are inline in the page, mirror `Projects/timetable.md` — edit both

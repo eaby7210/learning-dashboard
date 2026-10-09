@@ -15,6 +15,7 @@
     <h1>Learning Roadmap — Dashboard</h1>
     <div class="sub" id="generated">loading…</div>
 
+    <div class="cal-banner" id="cal-banner" hidden></div>
     <div class="today-card" id="today-card" hidden></div>
     <div class="notif-banner" id="notif-banner" hidden></div>
 
@@ -70,6 +71,8 @@
   </main>
 
   <script src="nav.js"></script>
+  <script src="calendar.js"></script>
+  <script>renderCalendarBanner(document.getElementById("cal-banner"));</script>
   <script>
     renderNav("index.html");
 

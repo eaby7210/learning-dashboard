@@ -19,6 +19,7 @@ function renderNav(active) {
     ["advancements.html", "Advancements"],
     ["timeline.html", "Timeline"],
     ["schedule.html", "Schedule"],
+    ["calendar.html", "Calendar"],
   ];
   const nav = document.createElement("nav");
   nav.innerHTML = pages

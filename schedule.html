@@ -16,6 +16,7 @@
     <div class="sub">Daily timetable — WFH 16:00–02:00, wake 10:00. A "day" runs 10:00 → 10:00,
       so 01:00 still shows yesterday's block. Source of truth: <code>timetable.md</code>.</div>
 
+    <div class="cal-banner" id="cal-banner" hidden></div>
     <div class="sched-now" id="sched-now"></div>
 
     <div class="sched-controls">
@@ -44,6 +45,8 @@
   </main>
 
   <script src="nav.js"></script>
+  <script src="calendar.js"></script>
+  <script>renderCalendarBanner(document.getElementById("cal-banner"));</script>
   <script>
     renderNav("schedule.html");
 
@@ -72,7 +75,8 @@
             r("12:00", "12:45", "learn", "NeetCode", "~2 problems → the ~100 by Mar 2027 target."),
             r("12:45", "14:00", "free", "Shower, rest"),
           ] : [
-            r("12:00", "14:00", "free", "Free / chores / rest"),
+            r("12:00", "13:00", "learn", "Learning (2nd block)", "Fast-track topic — see Calendar."),
+            r("13:00", "14:00", "free", "Shower, rest"),
           ];
         return [
           r("10:00", "10:15", "free", "Wake", "Water, 5 min daylight, no phone."),
@@ -98,7 +102,7 @@
       ];
       if (d === 5) return [
         ...common,
-        r("11:00", "13:00", "learn", "Systems lane", "C-Cpp now; DSA / Go after the jump gate."),
+        r("11:00", "13:00", "learn", "Portfolio build", "sphadik slice + fast-track topics; systems lane frozen until the switch."),
         r("13:00", "14:00", "meal", "Lunch"),
         r("14:00", "15:15", "workout", "Workout", "Home, dumbbells — follow Fitify."),
         r("15:15", "15:30", "free", "Shower, rest"),

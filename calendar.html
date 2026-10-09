@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calendar — Learning Roadmap</title>
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f1420">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>%F0%9F%93%85</text></svg>">
+</head>
+<body>
+  <main>
+    <h1>Calendar</h1>
+    <div class="sub" id="cal-sub">loading…</div>
+
+    <div class="cal-banner" id="cal-banner" hidden></div>
+
+    <section>
+      <h2>Milestones</h2>
+      <div class="cal-ms-row" id="cal-ms"></div>
+    </section>
+
+    <section>
+      <div class="cal-head">
+        <button id="cal-prev" aria-label="Previous month">‹</button>
+        <h2 id="cal-month" style="margin:0"></h2>
+        <button id="cal-next" aria-label="Next month">›</button>
+        <button id="cal-today">Today</button>
+      </div>
+      <div class="cal-legend">Solid = fast-track (core). Dashed = optional parallel lane (never moves core dates).</div>
+      <div class="cal-grid" id="cal-grid"></div>
+      <div class="cal-agenda" id="cal-agenda"></div>
+    </section>
+
+    <section>
+      <h2>Phases — fast track</h2>
+      <table class="sched-table" id="cal-phases">
+        <thead><tr><th>Phase</th><th>Topics</th><th>Hours left</th><th>Planned</th><th>Left</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Next topics</h2>
+      <table class="sched-table" id="cal-topics">
+        <thead><tr><th>Topic</th><th>Hours</th><th>Planned</th><th>Left</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>NeetCode</h2>
+      <div class="cal-msg milestone" id="cal-neet"></div>
+    </section>
+  </main>
+
+  <script src="nav.js"></script>
+  <script src="calendar.js"></script>
+  <script>
+    renderNav("calendar.html");
+    const $ = (id) => document.getElementById(id);
+    const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;");
+    const colorOf = (subject) => SUBJECT_COLOR[subject] || "var(--accent)";
+    const WD = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+    loadCalendar().then((cal) => {
+      const now = new Date();
+      let view = new Date(now.getFullYear(), now.getMonth(), 1);
+      let selected = null;
+      const byDate = Object.fromEntries(cal.days.map((d) => [d.date, d]));
+      const iso = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+
+      $("cal-sub").textContent =
+        `Generated ${cal.today} · ${hrs(cal.core_hours_left)} of fast-track left · projected done ${cal.core_done_date ? fmtDate(cal.core_done_date) : "—"} · ` +
+        `completion is marked by the mentor (topic_done.py), skims pull dates earlier.`;
+      renderCalendarBanner($("cal-banner"));
+
+      $("cal-ms").innerHTML = cal.milestones.map((m) => {
+        const left = daysBetween(now, parseISO(m.date));
+        const ok = m.slack_days >= 0;
+        return `<div class="cal-ms ${ok ? "ok" : "late"}"><div class="cal-ms-label">${esc(m.label)}</div>` +
+          `<div class="cal-ms-days">${left >= 0 ? plural(left, "day") + " away" : plural(-left, "day") + " ago"}</div>` +
+          `<div class="cal-ms-sub">${fmtDate(m.date)} · ready ${fmtDate(m.projected_ready)} · ${ok ? "+" + m.slack_days + " d slack" : plural(-m.slack_days, "day") + " behind"}</div></div>`;
+      }).join("");
+
+      function chip(e, opt) {
+        return `<span class="cal-chip${opt ? " opt" : ""}" style="--chip:${colorOf(e.subject)}" title="${esc(e.title)} (${hrs(e.hours)})">${esc(e.subject)} ${e.phase}</span>`;
+      }
+
+      function renderMonth() {
+        $("cal-month").textContent = view.toLocaleDateString(undefined, { month: "long", year: "numeric" });
+        const first = new Date(view.getFullYear(), view.getMonth(), 1);
+        const lead = (first.getDay() + 6) % 7; // Monday-first
+        const nDays = new Date(view.getFullYear(), view.getMonth() + 1, 0).getDate();
+        let html = WD.map((d) => `<div class="cal-dow">${d}</div>`).join("");
+        for (let i = 0; i < lead; i++) html += `<div class="cal-cell blank"></div>`;
+        for (let n = 1; n <= nDays; n++) {
+          const d = new Date(view.getFullYear(), view.getMonth(), n);
+          const key = iso(d), row = byDate[key];
+          const core = row ? row.core : [], opt = row ? row.optional : [];
+          const seen = new Set();
+          const chips = [...core.map((e) => [e, false]), ...opt.map((e) => [e, true])]
+            .filter(([e, o]) => { const k = e.subject + e.phase + o; if (seen.has(k)) return false; seen.add(k); return true; });
+          const cls = ["cal-cell"];
+          if (key === iso(now)) cls.push("today");
+          if (key === selected) cls.push("sel");
+          html += `<div class="${cls.join(" ")}" data-date="${key}"><div class="cal-num">${n}</div>` +
+            chips.slice(0, 3).map(([e, o]) => chip(e, o)).join("") +
+            (chips.length > 3 ? `<span class="cal-more-chip">+${chips.length - 3}</span>` : "") + `</div>`;
+        }
+        $("cal-grid").innerHTML = html;
+        document.querySelectorAll(".cal-cell[data-date]").forEach((c) =>
+          c.addEventListener("click", () => { selected = c.dataset.date; renderMonth(); renderAgenda(); }));
+      }
+
+      function renderAgenda() {
+        const el = $("cal-agenda");
+        if (!selected) { el.innerHTML = `<div class="empty">Click a day for its topics.</div>`; return; }
+        const row = byDate[selected];
+        const items = (row ? row.core : []).map((e) => [e, false]).concat((row ? row.optional : []).map((e) => [e, true]));
+        const left = daysBetween(now, parseISO(selected));
+        el.innerHTML = `<h2>${fmtDate(selected)} — ${left === 0 ? "today" : left > 0 ? "in " + plural(left, "day") : plural(-left, "day") + " ago"}</h2>` +
+          (items.length ? items.map(([e, o]) => {
+            const t = cal.topics.find((x) => x.id === e.topic_id);
+            const end = t && t.end ? daysBetween(now, parseISO(t.end)) : null;
+            return `<div class="cal-item${o ? " opt" : ""}" style="--chip:${colorOf(e.subject)}"><b>${esc(e.subject)} Ph${e.phase}</b> · ${esc(e.title)} <span class="muted">· ${hrs(e.hours)} today${end !== null ? ` · topic ends ${end <= 0 ? "today" : "in " + plural(end, "day")}` : ""}${o ? " · optional" : ""}</span></div>`;
+          }).join("") : `<div class="empty">Nothing scheduled.</div>`);
+      }
+
+      $("cal-prev").onclick = () => { view = new Date(view.getFullYear(), view.getMonth() - 1, 1); renderMonth(); };
+      $("cal-next").onclick = () => { view = new Date(view.getFullYear(), view.getMonth() + 1, 1); renderMonth(); };
+      $("cal-today").onclick = () => { view = new Date(now.getFullYear(), now.getMonth(), 1); selected = iso(now); renderMonth(); renderAgenda(); };
+      renderMonth(); renderAgenda();
+
+      const leftStr = (end) => { if (!end) return "—"; const n = daysBetween(now, parseISO(end)); return n < 0 ? `${-n} d late` : n === 0 ? "today" : plural(n, "day"); };
+      $("cal-phases").querySelector("tbody").innerHTML = cal.phases.filter((p) => p.lane === "core").map((p) =>
+        `<tr><td><span class="cal-dot" style="background:${colorOf(p.subject)}"></span>${esc(p.subject)} Ph${p.phase}</td>` +
+        `<td>${p.done_topics}/${p.topics}${p.skimmed_topics ? ` (${p.skimmed_topics} skimmed)` : ""}</td>` +
+        `<td>${p.hours_left ? (p.estimate ? "~" : "") + hrs(p.hours_left) : "done"}</td>` +
+        `<td>${p.start ? fmtDate(p.start) + " → " + fmtDate(p.end) : "—"}</td><td>${p.hours_left ? leftStr(p.end) : "✓"}</td></tr>`).join("");
+
+      $("cal-topics").querySelector("tbody").innerHTML = cal.topics.filter((t) => t.lane === "core" && t.status === "pending").slice(0, 12).map((t) =>
+        `<tr><td><span class="cal-dot" style="background:${colorOf(t.subject)}"></span><b>${esc(t.subject)} Ph${t.phase}</b> · ${esc(t.title)}</td>` +
+        `<td>${hrs(t.hours)}</td><td>${fmtDate(t.start)}${t.end !== t.start ? " → " + fmtDate(t.end) : ""}</td><td>${leftStr(t.end)}</td></tr>`).join("");
+
+      const n = cal.neetcode, wkLeft = Math.max(daysBetween(now, parseISO(n.by)) / 7, 0.1);
+      $("cal-neet").textContent = `${n.solved}/${n.target} solved · need ${n.per_week_needed}/week to hit ${n.target} by ${fmtDate(n.by)} (${plural(Math.round(wkLeft), "week")} left)`;
+    }).catch((e) => { $("cal-sub").textContent = "calendar.json not found — run scripts/refresh_dashboard.py (" + e + ")"; });
+  </script>
+</body>
+</html>
