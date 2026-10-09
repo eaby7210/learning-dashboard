@@ -1,11 +1,11 @@
 {
-  "generated": "2026-09-28",
+  "generated": "2026-10-09",
   "total_xp": 222,
   "level": 1,
   "streak": {
-    "current": 2,
+    "current": 0,
     "longest": 5,
-    "last_active": "2026-09-27",
+    "last_active": "2026-10-04",
     "active_dates": [
       "2026-09-07",
       "2026-09-13",
@@ -15,13 +15,13 @@
       "2026-09-17",
       "2026-09-20",
       "2026-09-26",
-      "2026-09-27"
+      "2026-10-04"
     ]
   },
   "subjects": {
     "C-Cpp": {
       "phase": 2,
-      "status": "in progress",
+      "status": "In progress",
       "xp": 222,
       "max_phase": 9,
       "finished": false
@@ -101,6 +101,13 @@
       "status": "not started",
       "xp": 0,
       "max_phase": 8,
+      "finished": false
+    },
+    "GameDev": {
+      "phase": 0,
+      "status": "not started",
+      "xp": 0,
+      "max_phase": 12,
       "finished": false
     }
   },
@@ -1229,6 +1236,138 @@
       "tooltip": "Requirement: reach Phase 7 in AWS."
     },
     {
+      "id": "GameDev-ph0",
+      "tier": "task",
+      "label": "Hello, Exported",
+      "flavor": "Edit, run, export \u2014 the loop closes.",
+      "icon": "\ud83c\udfae",
+      "subject": "GameDev",
+      "parent": null,
+      "earned": true,
+      "tooltip": "Earned \u2014 GameDev reached Phase 0."
+    },
+    {
+      "id": "GameDev-ph1",
+      "tier": "task",
+      "label": "Ball, Paddle, Brick",
+      "flavor": "delta was doing the work all along.",
+      "icon": "\ud83c\udfd3",
+      "subject": "GameDev",
+      "parent": "GameDev-ph0",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 1 in GameDev."
+    },
+    {
+      "id": "GameDev-ph2",
+      "tier": "task",
+      "label": "Coyote Time",
+      "flavor": "The ledge forgave you for 0.1 seconds.",
+      "icon": "\ud83e\udd98",
+      "subject": "GameDev",
+      "parent": "GameDev-ph1",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 2 in GameDev."
+    },
+    {
+      "id": "GameDev-ph3",
+      "tier": "task",
+      "label": "Pixels, Not Blurry",
+      "flavor": "Nearest-neighbor, always.",
+      "icon": "\ud83d\uddbc\ufe0f",
+      "subject": "GameDev",
+      "parent": "GameDev-ph2",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 3 in GameDev."
+    },
+    {
+      "id": "GameDev-ph4",
+      "tier": "task",
+      "label": "Looped, No Click",
+      "flavor": "The seam is where you cut it.",
+      "icon": "\ud83c\udfb5",
+      "subject": "GameDev",
+      "parent": "GameDev-ph3",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 4 in GameDev."
+    },
+    {
+      "id": "GameDev-ph5",
+      "tier": "task",
+      "label": "Hitstop, Felt",
+      "flavor": "Three frozen frames made it hit harder.",
+      "icon": "\u2694\ufe0f",
+      "subject": "GameDev",
+      "parent": "GameDev-ph4",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 5 in GameDev."
+    },
+    {
+      "id": "GameDev-ph6",
+      "tier": "task",
+      "label": "Applied Scale, Exported",
+      "flavor": "Blender and Godot agree on meters.",
+      "icon": "\ud83e\uddca",
+      "subject": "GameDev",
+      "parent": "GameDev-ph5",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 6 in GameDev."
+    },
+    {
+      "id": "GameDev-ph7",
+      "tier": "task",
+      "label": "Same Seed, Same World",
+      "flavor": "The RNG was never global again.",
+      "icon": "\ud83c\udf0d",
+      "subject": "GameDev",
+      "parent": "GameDev-ph6",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 7 in GameDev."
+    },
+    {
+      "id": "GameDev-ph8",
+      "tier": "task",
+      "label": "Worker, Not Main",
+      "flavor": "The frame time stopped spiking.",
+      "icon": "\ud83e\uddf5",
+      "subject": "GameDev",
+      "parent": "GameDev-ph7",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 8 in GameDev."
+    },
+    {
+      "id": "GameDev-ph9",
+      "tier": "task",
+      "label": "Streamed, Not Loaded",
+      "flavor": "The city appeared around the camera.",
+      "icon": "\ud83d\ude97",
+      "subject": "GameDev",
+      "parent": "GameDev-ph8",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 9 in GameDev."
+    },
+    {
+      "id": "GameDev-ph10",
+      "tier": "task",
+      "label": "Twenty Turns, Saved",
+      "flavor": "The G4x MVP survived a reload.",
+      "icon": "\ud83d\udc51",
+      "subject": "GameDev",
+      "parent": "GameDev-ph9",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 10 in GameDev."
+    },
+    {
+      "id": "GameDev-ph11",
+      "tier": "task",
+      "label": "Traced, Not Skimmed",
+      "flavor": "Somebody else's codebase made sense.",
+      "icon": "\ud83d\udd2d",
+      "subject": "GameDev",
+      "parent": "GameDev-ph10",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 11 in GameDev."
+    },
+    {
       "id": "gate-c-cpp-dsa",
       "tier": "goal",
       "label": "Pointers Paid Off",
@@ -1337,6 +1476,28 @@
       "parent": "Odin-challenge",
       "earned": false,
       "tooltip": "Requirement: log a documented jump out of Odin."
+    },
+    {
+      "id": "gate-gamedev-g4x",
+      "tier": "goal",
+      "label": "Engine Skills, Real Stakes",
+      "flavor": "The capstone is a real 4X game.",
+      "icon": "\ud83e\udded",
+      "subject": "GameDev",
+      "parent": "GameDev-ph9",
+      "earned": false,
+      "tooltip": "Requirement: log a documented jump out of GameDev."
+    },
+    {
+      "id": "gate-gamedev-odin",
+      "tier": "goal",
+      "label": "Now Without the Engine",
+      "flavor": "You own the loop and the allocator.",
+      "icon": "\ud83d\udd27",
+      "subject": "GameDev",
+      "parent": "GameDev-challenge",
+      "earned": false,
+      "tooltip": "Requirement: log a documented jump out of GameDev."
     },
     {
       "id": "gate-postgresql-systemdesign",
@@ -1559,6 +1720,17 @@
       "tooltip": "Requirement: finish AWS (Phase 8) with a shipped capstone."
     },
     {
+      "id": "GameDev-challenge",
+      "tier": "challenge",
+      "label": "Shipped, Playable",
+      "flavor": "An itch.io page is about to exist.",
+      "icon": "\ud83d\ude80",
+      "subject": "GameDev",
+      "parent": "GameDev-ph11",
+      "earned": false,
+      "tooltip": "Requirement: finish GameDev (Phase 12) with a shipped capstone."
+    },
+    {
       "id": "streak-3",
       "tier": "task",
       "label": "Warming Up",
@@ -1605,10 +1777,10 @@
   ],
   "timeline": [
     {
-      "date": "2026-09-27",
+      "date": "2026-10-04",
       "subject": "C-Cpp",
       "event": "phase-sync",
-      "detail": "Phase 2 \u2014 in progress"
+      "detail": "Phase 2 \u2014 In progress"
     },
     {
       "date": "2026-09-26",
