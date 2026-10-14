@@ -1,7 +1,7 @@
-const CACHE = "roadmap-dashboard-v5";
+const CACHE = "roadmap-dashboard-v6";
 const CORE_FILES = [
   "index.html", "map.html", "advancements.html", "timeline.html", "schedule.html", "calendar.html",
-  "style.css", "nav.js", "calendar.js", "manifest.json",
+  "style.css", "nav.js", "calendar.js", "phase-modal.js", "manifest.json",
   "icons/icon-192.png", "icons/icon-512.png",
 ];
 

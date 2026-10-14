@@ -58,6 +58,7 @@
 
   <script src="nav.js"></script>
   <script src="calendar.js"></script>
+  <script src="phase-modal.js"></script>
   <script>
     renderNav("calendar.html");
     const $ = (id) => document.getElementById(id);
@@ -87,7 +88,7 @@
       const cuIds = new Set(cal.topics.filter((t) => t.lane === "catchup").map((t) => t.id));
       function chip(e, opt) {
         const cu = cuIds.has(e.topic_id);
-        return `<span class="cal-chip${cu ? " cu" : opt ? " opt" : ""}" style="--chip:${colorOf(e.subject)}" title="${esc(e.title)} (${hrs(e.hours)})">${cu ? "★ " : ""}${esc(e.subject)} ${e.phase}</span>`;
+        return `<span class="cal-chip${cu ? " cu" : opt ? " opt" : ""}" data-subject="${esc(e.subject)}" data-phase="${e.phase}" style="--chip:${colorOf(e.subject)}" title="${esc(e.title)} (${hrs(e.hours)})">${cu ? "★ " : ""}${esc(e.subject)} ${e.phase}</span>`;
       }
 
       function renderMonth() {
@@ -126,7 +127,7 @@
           (items.length ? items.map(([e, o]) => {
             const t = cal.topics.find((x) => x.id === e.topic_id);
             const end = t && t.end ? daysBetween(now, parseISO(t.end)) : null;
-            return `<div class="cal-item${cuIds.has(e.topic_id) ? " cu" : o ? " opt" : ""}" style="--chip:${colorOf(e.subject)}"><b>${esc(e.subject)} Ph${e.phase}</b> · ${esc(e.title)} <span class="muted">· ${hrs(e.hours)} today${end !== null ? ` · topic ends ${end <= 0 ? "today" : "in " + plural(end, "day")}` : ""}${o ? " · optional" : ""}</span></div>`;
+            return `<div class="cal-item${cuIds.has(e.topic_id) ? " cu" : o ? " opt" : ""}" data-subject="${esc(e.subject)}" data-phase="${e.phase}" tabindex="0" title="Open phase syllabus" style="--chip:${colorOf(e.subject)}"><b>${esc(e.subject)} Ph${e.phase}</b> · ${esc(e.title)} <span class="muted">· ${hrs(e.hours)} today${end !== null ? ` · topic ends ${end <= 0 ? "today" : "in " + plural(end, "day")}` : ""}${o ? " · optional" : ""}</span></div>`;
           }).join("") : `<div class="empty">Nothing scheduled.</div>`);
       }
 
@@ -137,13 +138,13 @@
 
       const leftStr = (end) => { if (!end) return "—"; const n = daysBetween(now, parseISO(end)); return n < 0 ? `${-n} d late` : n === 0 ? "today" : plural(n, "day"); };
       $("cal-phases").querySelector("tbody").innerHTML = cal.phases.filter((p) => p.lane !== "optional").map((p) =>
-        `<tr><td><span class="cal-dot" style="background:${colorOf(p.subject)}"></span>${esc(p.subject)} Ph${p.phase}</td>` +
+        `<tr data-subject="${esc(p.subject)}" data-phase="${p.phase}" tabindex="0" title="Open phase syllabus"><td><span class="cal-dot" style="background:${colorOf(p.subject)}"></span>${esc(p.subject)} Ph${p.phase}</td>` +
         `<td>${p.done_topics}/${p.topics}${p.skimmed_topics ? ` (${p.skimmed_topics} skimmed)` : ""}</td>` +
         `<td>${p.hours_left ? (p.estimate ? "~" : "") + hrs(p.hours_left) : "done"}</td>` +
         `<td>${p.start ? fmtDate(p.start) + " → " + fmtDate(p.end) : "—"}</td><td>${p.hours_left ? leftStr(p.end) : "✓"}</td></tr>`).join("");
 
       $("cal-topics").querySelector("tbody").innerHTML = cal.topics.filter((t) => t.lane !== "optional" && t.status === "pending" && t.start).sort((a, b) => a.start.localeCompare(b.start)).slice(0, 12).map((t) =>
-        `<tr><td><span class="cal-dot" style="background:${colorOf(t.subject)}"></span><b>${esc(t.subject)} Ph${t.phase}</b> · ${esc(t.title)}</td>` +
+        `<tr data-subject="${esc(t.subject)}" data-phase="${t.phase}" tabindex="0" title="Open phase syllabus"><td><span class="cal-dot" style="background:${colorOf(t.subject)}"></span><b>${esc(t.subject)} Ph${t.phase}</b> · ${esc(t.title)}</td>` +
         `<td>${hrs(t.hours)}</td><td>${fmtDate(t.start)}${t.end !== t.start ? " → " + fmtDate(t.end) : ""}</td><td>${leftStr(t.end)}</td></tr>`).join("");
 
       const n = cal.neetcode, wkLeft = Math.max(daysBetween(now, parseISO(n.by)) / 7, 0.1);

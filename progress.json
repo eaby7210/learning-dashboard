@@ -1,5 +1,5 @@
 {
-  "generated": "2026-10-09",
+  "generated": "2026-10-14",
   "total_xp": 222,
   "level": 1,
   "streak": {
@@ -104,6 +104,20 @@
       "finished": false
     },
     "GameDev": {
+      "phase": 0,
+      "status": "not started",
+      "xp": 0,
+      "max_phase": 12,
+      "finished": false
+    },
+    "Music": {
+      "phase": 0,
+      "status": "not started",
+      "xp": 0,
+      "max_phase": 12,
+      "finished": false
+    },
+    "Security": {
       "phase": 0,
       "status": "not started",
       "xp": 0,
@@ -1368,6 +1382,270 @@
       "tooltip": "Requirement: reach Phase 11 in GameDev."
     },
     {
+      "id": "Music-ph0",
+      "tier": "task",
+      "label": "Sound Check",
+      "flavor": "Every tool answers, and the guitar is plugged in.",
+      "icon": "\ud83c\udf9b\ufe0f",
+      "subject": "Music",
+      "parent": null,
+      "earned": true,
+      "tooltip": "Earned \u2014 Music reached Phase 0."
+    },
+    {
+      "id": "Music-ph1",
+      "tier": "task",
+      "label": "440, Exactly",
+      "flavor": "Pitch turned out to be a number.",
+      "icon": "\ud83c\udf9a\ufe0f",
+      "subject": "Music",
+      "parent": "Music-ph0",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 1 in Music."
+    },
+    {
+      "id": "Music-ph2",
+      "tier": "task",
+      "label": "Whole, Whole, Half",
+      "flavor": "Every key is the same shape.",
+      "icon": "\ud83c\udfbc",
+      "subject": "Music",
+      "parent": "Music-ph1",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 2 in Music."
+    },
+    {
+      "id": "Music-ph3",
+      "tier": "task",
+      "label": "Tension, Resolved",
+      "flavor": "The dominant wanted to go home.",
+      "icon": "\ud83c\udfb9",
+      "subject": "Music",
+      "parent": "Music-ph2",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 3 in Music."
+    },
+    {
+      "id": "Music-ph4",
+      "tier": "task",
+      "label": "Looped, On the Bar",
+      "flavor": "The stems agree on a key.",
+      "icon": "\ud83d\udd01",
+      "subject": "Music",
+      "parent": "Music-ph3",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 4 in Music."
+    },
+    {
+      "id": "Music-ph5",
+      "tier": "task",
+      "label": "Fits the Melody",
+      "flavor": "The chord was a note of the tune.",
+      "icon": "\ud83c\udfb6",
+      "subject": "Music",
+      "parent": "Music-ph4",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 5 in Music."
+    },
+    {
+      "id": "Music-ph6",
+      "tier": "task",
+      "label": "Borrowed, Not Stolen",
+      "flavor": "One minor chord changed the mood.",
+      "icon": "\ud83c\udfad",
+      "subject": "Music",
+      "parent": "Music-ph5",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 6 in Music."
+    },
+    {
+      "id": "Music-ph7",
+      "tier": "task",
+      "label": "Stress on the Beat",
+      "flavor": "The syllable landed on the downbeat.",
+      "icon": "\ud83d\udcdd",
+      "subject": "Music",
+      "parent": "Music-ph6",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 7 in Music."
+    },
+    {
+      "id": "Music-ph8",
+      "tier": "task",
+      "label": "Recorded, Mixed, Done",
+      "flavor": "A song exists that did not before.",
+      "icon": "\ud83c\udf99\ufe0f",
+      "subject": "Music",
+      "parent": "Music-ph7",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 8 in Music."
+    },
+    {
+      "id": "Music-ph9",
+      "tier": "task",
+      "label": "85 Percent, By Ear",
+      "flavor": "The tritone stopped sounding like a fifth.",
+      "icon": "\ud83d\udc42",
+      "subject": "Music",
+      "parent": "Music-ph8",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 9 in Music."
+    },
+    {
+      "id": "Music-ph10",
+      "tier": "task",
+      "label": "Inside the Box",
+      "flavor": "The pentatonic shape found the chord tones.",
+      "icon": "\ud83c\udfb8",
+      "subject": "Music",
+      "parent": "Music-ph9",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 10 in Music."
+    },
+    {
+      "id": "Music-ph11",
+      "tier": "task",
+      "label": "Two Five One",
+      "flavor": "The tritone substitution sounded right.",
+      "icon": "\ud83c\udfb7",
+      "subject": "Music",
+      "parent": "Music-ph10",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 11 in Music."
+    },
+    {
+      "id": "Security-ph0",
+      "tier": "task",
+      "label": "Scope Stated First",
+      "flavor": "Authorization before action, every time.",
+      "icon": "\ud83d\udcdc",
+      "subject": "Security",
+      "parent": null,
+      "earned": true,
+      "tooltip": "Earned \u2014 Security reached Phase 0."
+    },
+    {
+      "id": "Security-ph1",
+      "tier": "task",
+      "label": "Three-Way Handshake, Read",
+      "flavor": "The SYN-ACK told the whole story.",
+      "icon": "\ud83d\udce1",
+      "subject": "Security",
+      "parent": "Security-ph0",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 1 in Security."
+    },
+    {
+      "id": "Security-ph2",
+      "tier": "task",
+      "label": "Trusted Input, Untrusted Mistake",
+      "flavor": "The query ran exactly as injected.",
+      "icon": "\ud83d\udc89",
+      "subject": "Security",
+      "parent": "Security-ph1",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 2 in Security."
+    },
+    {
+      "id": "Security-ph3",
+      "tier": "task",
+      "label": "Return Address, Redirected",
+      "flavor": "The stack did what it was told.",
+      "icon": "\ud83e\udde8",
+      "subject": "Security",
+      "parent": "Security-ph2",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 3 in Security."
+    },
+    {
+      "id": "Security-ph4",
+      "tier": "task",
+      "label": "Cracked, Measured",
+      "flavor": "Hashes per second turned out to matter.",
+      "icon": "\ud83d\udd13",
+      "subject": "Security",
+      "parent": "Security-ph3",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 4 in Security."
+    },
+    {
+      "id": "Security-ph5",
+      "tier": "task",
+      "label": "One Foothold, Then Root",
+      "flavor": "Enumeration found what the exploit needed.",
+      "icon": "\ud83e\ude9c",
+      "subject": "Security",
+      "parent": "Security-ph4",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 5 in Security."
+    },
+    {
+      "id": "Security-ph6",
+      "tier": "task",
+      "label": "Decompiled, Then Verified",
+      "flavor": "The disassembly didn't lie.",
+      "icon": "\ud83d\udd2c",
+      "subject": "Security",
+      "parent": "Security-ph5",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 6 in Security."
+    },
+    {
+      "id": "Security-ph7",
+      "tier": "task",
+      "label": "Same Exploit, Now Fails",
+      "flavor": "The fix closed the exact assumption.",
+      "icon": "\ud83d\udee1\ufe0f",
+      "subject": "Security",
+      "parent": "Security-ph6",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 7 in Security."
+    },
+    {
+      "id": "Security-ph8",
+      "tier": "task",
+      "label": "Found In The Logs",
+      "flavor": "The attack left a line after all.",
+      "icon": "\ud83d\udd0d",
+      "subject": "Security",
+      "parent": "Security-ph7",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 8 in Security."
+    },
+    {
+      "id": "Security-ph9",
+      "tier": "task",
+      "label": "Caught Before Ship",
+      "flavor": "The review found it first.",
+      "icon": "\ud83e\uddd0",
+      "subject": "Security",
+      "parent": "Security-ph8",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 9 in Security."
+    },
+    {
+      "id": "Security-ph10",
+      "tier": "task",
+      "label": "Contained, Then Eradicated",
+      "flavor": "Order mattered.",
+      "icon": "\ud83d\udea8",
+      "subject": "Security",
+      "parent": "Security-ph9",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 10 in Security."
+    },
+    {
+      "id": "Security-ph11",
+      "tier": "task",
+      "label": "Least Privilege, Verified",
+      "flavor": "The policy stopped doing too much.",
+      "icon": "\ud83d\udd10",
+      "subject": "Security",
+      "parent": "Security-ph10",
+      "earned": false,
+      "tooltip": "Requirement: reach Phase 11 in Security."
+    },
+    {
       "id": "gate-c-cpp-dsa",
       "tier": "goal",
       "label": "Pointers Paid Off",
@@ -1485,6 +1763,17 @@
       "icon": "\ud83e\udded",
       "subject": "GameDev",
       "parent": "GameDev-ph9",
+      "earned": false,
+      "tooltip": "Requirement: log a documented jump out of GameDev."
+    },
+    {
+      "id": "gate-gamedev-music",
+      "tier": "goal",
+      "label": "Theory Meets the Loop",
+      "flavor": "Notes become a looping track.",
+      "icon": "\ud83c\udfb5",
+      "subject": "GameDev",
+      "parent": "GameDev-ph4",
       "earned": false,
       "tooltip": "Requirement: log a documented jump out of GameDev."
     },
@@ -1729,6 +2018,28 @@
       "parent": "GameDev-ph11",
       "earned": false,
       "tooltip": "Requirement: finish GameDev (Phase 12) with a shipped capstone."
+    },
+    {
+      "id": "Music-challenge",
+      "tier": "challenge",
+      "label": "Scored, Adaptive",
+      "flavor": "The soundtrack reacts to the game.",
+      "icon": "\ud83c\udfbb",
+      "subject": "Music",
+      "parent": "Music-ph11",
+      "earned": false,
+      "tooltip": "Requirement: finish Music (Phase 12) with a shipped capstone."
+    },
+    {
+      "id": "Security-challenge",
+      "tier": "challenge",
+      "label": "Attacked. Defended. Proven.",
+      "flavor": "The second attempt failed on purpose.",
+      "icon": "\ud83c\udff4",
+      "subject": "Security",
+      "parent": "Security-ph11",
+      "earned": false,
+      "tooltip": "Requirement: finish Security (Phase 12) with a shipped capstone."
     },
     {
       "id": "streak-3",

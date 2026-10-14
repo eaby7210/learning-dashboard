@@ -19,6 +19,8 @@
   --c-docker: #2496ed;
   --c-sysdesign: #b388ff;
   --c-gamedev: #ff8a65;
+  --c-music: #4dd0c8;
+  --c-security: #e05263;
   --c-aws: #ff9900;
 }
 
@@ -458,3 +460,27 @@ footer { color: var(--muted); font-size: 0.75rem; margin: 32px 0; }
 @media (max-width: 600px) { .cal-cell { min-height: 58px; } .cal-chip { font-size: 0.6rem; } }
 .cal-chip.cu { background: color-mix(in srgb, var(--chip) 30%, transparent); border: 1px solid var(--gold); border-left: 3px solid var(--gold); opacity: 1; }
 .cal-item.cu { border-left-color: var(--gold); }
+
+/* phase syllabus modal (phase-modal.js) */
+[data-subject][data-phase] { cursor: pointer; }
+tr[data-subject][data-phase]:hover { background: var(--panel2); }
+.cal-item[data-phase]:hover { border-color: var(--accent); }
+.pm-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 16px; }
+.pm-overlay[hidden] { display: none; }
+.pm { background: var(--panel); border: 1px solid var(--border); border-top: 3px solid var(--pm-color, var(--accent)); border-radius: 10px; width: min(760px, 100%); max-height: 88vh; display: flex; flex-direction: column; }
+.pm-head { display: flex; align-items: flex-start; gap: 12px; padding: 14px 18px 8px; }
+.pm-head h2 { flex: 1; margin: 0; font-size: 1.05rem; }
+.pm-x { background: none; border: 0; color: var(--muted); font-size: 1.6rem; line-height: 1; cursor: pointer; }
+.pm-x:hover { color: var(--text); }
+.pm-body { overflow-y: auto; padding: 4px 18px 14px; font-size: 0.88rem; line-height: 1.5; }
+.pm-body ul { margin: 4px 0; padding-left: 20px; }
+.pm-body li { margin: 3px 0; }
+.pm-body code { background: var(--panel2); border-radius: 4px; padding: 1px 5px; font-size: 0.82em; }
+.pm-body p { margin: 8px 0; }
+.pm-body h4 { margin: 12px 0 4px; color: var(--muted); }
+.pm-body blockquote { margin: 8px 0; padding-left: 10px; border-left: 3px solid var(--border); color: var(--muted); }
+.pm-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 18px; border-top: 1px solid var(--border); }
+.pm-foot button { background: var(--panel2); color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 4px 12px; cursor: pointer; font: inherit; }
+.pm-foot button:hover:not(:disabled) { border-color: var(--accent); }
+.pm-foot button:disabled { opacity: 0.35; cursor: default; }
+.pm-pos { color: var(--muted); font-size: 0.75rem; }

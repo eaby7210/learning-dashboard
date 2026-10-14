@@ -71,6 +71,7 @@
   </main>
 
   <script src="nav.js"></script>
+  <script src="phase-modal.js"></script>
   <script src="calendar.js"></script>
   <script>renderCalendarBanner(document.getElementById("cal-banner"));</script>
   <script>
@@ -90,11 +91,13 @@
       for (const [subject, info] of Object.entries(data.subjects)) {
         const card = document.createElement("div");
         card.className = "subject-card" + (info.finished ? " finished" : "");
+        card.dataset.subject = subject; card.dataset.phase = Math.min(info.phase, info.max_phase);
+        card.title = "Open current phase syllabus";
         card.style.setProperty("--subject-color", SUBJECT_COLOR[subject] || "var(--border)");
         const dots = Array.from({ length: info.max_phase }, (_, i) => {
           const filled = i < info.phase;
           const cls = info.finished ? "finished" : filled ? "filled" : "";
-          return `<div class="phase-dot ${cls}"></div>`;
+          return `<div class="phase-dot ${cls}" data-subject="${subject}" data-phase="${i}" title="Phase ${i}"></div>`;
         }).join("");
         card.innerHTML = `
           <div class="subject-name">${subject} ${info.finished ? '<span class="check">✓</span>' : ""}</div>

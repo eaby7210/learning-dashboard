@@ -10,6 +10,8 @@ const SUBJECT_COLOR = {
   "SystemDesign": "var(--c-sysdesign)",
   "AWS": "var(--c-aws)",
   "GameDev": "var(--c-gamedev)",
+  "Music": "var(--c-music)",
+  "Security": "var(--c-security)",
 };
 
 function renderNav(active) {
