@@ -16,12 +16,14 @@
     <h1>Roadmap Map</h1>
     <div class="sub">Solid arrows = sequence within a subject. Dashed arrows = a
       documented cross-folder jump. Node color = locked / current / done, from
-      progress.json — the shape mirrors roadmap.md's own flowchart.</div>
+      progress.json — the shape mirrors roadmap.md's own flowchart.
+      <b>Click a node</b> to read that part's syllabus.</div>
 
     <div class="mermaid-wrap" id="diagram-target"></div>
   </main>
 
   <script src="nav.js"></script>
+  <script src="phase-modal.js"></script>
   <script>
     // Mermaid auto-initializes on load (startOnLoad defaults to true) and would
     // otherwise mark a placeholder element "processed" before our data even
@@ -104,7 +106,21 @@
       const target = document.getElementById("diagram-target");
       target.innerHTML = "";
       target.appendChild(pre);
-      mermaid.run({ nodes: [pre] });
+      mermaid.run({ nodes: [pre] }).then(() => {
+        // Make each phase-group node open the syllabus modal (phase-modal.js reads data-*).
+        const byId = {};
+        for (const [subject, groups] of Object.entries(GROUPS))
+          for (const [id, , start, end] of groups) byId[id] = { subject, start, end };
+        target.querySelectorAll("g.node").forEach((g) => {
+          const m = g.id.match(/^flowchart-(.+)-\d+$/);
+          const info = m && byId[m[1]];
+          if (!info) return; // neetcode bubble has no phases
+          Object.assign(g.dataset, { subject: info.subject, phase: info.start, phaseEnd: info.end });
+          g.setAttribute("tabindex", "0");
+          g.setAttribute("role", "button");
+          g.setAttribute("aria-label", `${info.subject} phases ${info.start}-${info.end} syllabus`);
+        });
+      });
     });
   </script>
 </body>

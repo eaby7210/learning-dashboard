@@ -62,11 +62,21 @@
     if (i >= 0 && i < n.length) render(cur.subject, n[i]);
   }
 
-  function render(subject, phase) {
+  function render(subject, phase, end) {
     const ph = (data[subject] || {})[phase];
     cur = { subject, phase, opener: cur && cur.opener };
     const n = nums(subject), i = n.indexOf(+phase);
-    el.querySelector(".pm").style.setProperty("--pm-color", (window.SUBJECT_COLOR || {})[subject] || "var(--accent)");
+    const range = +end > +phase ? n.filter((p) => p >= +phase && p <= +end) : null; // group node on the map
+    el.querySelector(".pm").style.setProperty("--pm-color", (typeof SUBJECT_COLOR !== "undefined" && SUBJECT_COLOR[subject]) || "var(--accent)");
+    el.querySelector(".pm-foot").hidden = !!range;
+    if (range) {
+      el.querySelector("#pm-title").textContent = `${subject} · Phases ${phase}–${end}`;
+      el.querySelector(".pm-body").innerHTML = range.length
+        ? range.map((p) => `<h3>Phase ${p} — ${esc(data[subject][p].title)}</h3>` + md(data[subject][p].md)).join("")
+        : `<p class="muted">No syllabus section found for these phases.</p>`;
+      el.querySelector(".pm-body").scrollTop = 0;
+      return;
+    }
     el.querySelector("#pm-title").textContent = `${subject} · Phase ${phase}` + (ph ? ` — ${ph.title}` : "");
     el.querySelector(".pm-body").innerHTML = ph ? md(ph.md) : `<p class="muted">No syllabus section found for this phase.</p>`;
     el.querySelector(".pm-body").scrollTop = 0;
@@ -75,9 +85,9 @@
     el.querySelector(".pm-pos").textContent = i >= 0 ? `${i + 1} / ${n.length}` : "";
   }
 
-  function open(subject, phase, opener) {
+  function open(subject, phase, opener, end) {
     if (!el) build();
-    const go = () => { cur = { opener }; render(subject, phase); el.hidden = false; document.body.style.overflow = "hidden"; el.querySelector(".pm-x").focus(); };
+    const go = () => { cur = { opener }; render(subject, phase, end); el.hidden = false; document.body.style.overflow = "hidden"; el.querySelector(".pm-x").focus(); };
     if (data) return go();
     fetch("syllabus.json").then((r) => r.json()).then((d) => { data = d; go(); })
       .catch(() => { data = {}; go(); });
@@ -87,7 +97,7 @@
     const t = e.target.closest("[data-subject][data-phase]");
     if (!t || e.target.closest("a")) return;
     e.stopPropagation();
-    open(t.dataset.subject, t.dataset.phase, t);
+    open(t.dataset.subject, t.dataset.phase, t, t.dataset.phaseEnd);
   }, true);
   document.addEventListener("keydown", (e) => {
     if ((e.key === "Enter" || e.key === " ") && e.target.matches && e.target.matches("[data-subject][data-phase][tabindex]")) { e.preventDefault(); e.target.click(); }
